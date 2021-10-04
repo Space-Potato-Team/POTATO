@@ -1,10 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ShrinkWrapSphere : MonoBehaviour {
+    
+    
 
-    void Start() {
+    void Start()
+    {
+        Planet p = new Planet();
+        p.InitAsIcosohedron();
+        p.Subdivide(4);
+
+        Mesh mesh = p.GenerateMesh();
+        
+        GetComponent<MeshFilter>().mesh = mesh;
+        GetComponent<MeshCollider>().sharedMesh = mesh;
         Shrink();
     }
 
@@ -13,16 +25,25 @@ public class ShrinkWrapSphere : MonoBehaviour {
         MeshFilter meshFilter = GetComponent<MeshFilter>();
         Mesh mesh = meshFilter.mesh;
 
+        GetComponent<MeshCollider>().enabled = false;
+        
         Vector3[] vertices = new Vector3[mesh.vertices.Length];
         System.Array.Copy(mesh.vertices, vertices, vertices.Length);
-
+        
         for (int i = 0; i < vertices.Length; i++) {
             Vector3 rayDirection = -mesh.normals[i];
-            Debug.DrawRay(vertices[i] + transform.position, rayDirection, Color.black, 5f);
             RaycastHit hit;
             if ( Physics.Raycast( vertices[i] + transform.position, rayDirection, out hit, 100f ) ) {
                 Debug.Log("hit");
-                vertices[i] = hit.point;
+                Debug.DrawRay(vertices[i] + transform.position, hit.point - (vertices[i] + transform.position), Color.black, 100f);
+                if (vertices[i] + transform.position == hit.point)
+                {
+                    Debug.Log(hit.collider.name);
+                    Debug.DrawRay(vertices[i] + transform.position, -rayDirection, Color.red, 100f);
+                }
+                
+                vertices[i] = hit.point - transform.position;
+                
             }
             else {
                 Debug.Log("bad");
@@ -39,5 +60,6 @@ public class ShrinkWrapSphere : MonoBehaviour {
         mesh.RecalculateTangents();
         transform.GetComponent<MeshRenderer>().enabled = true;
         transform.GetComponent<MeshCollider>().sharedMesh = mesh;
+        GetComponent<MeshCollider>().enabled = true;
     }
 }
