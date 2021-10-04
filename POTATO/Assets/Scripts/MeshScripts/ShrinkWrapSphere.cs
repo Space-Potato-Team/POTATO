@@ -18,11 +18,11 @@ public class ShrinkWrapSphere : MonoBehaviour {
 
         for (int i = 0; i < vertices.Length; i++) {
             Vector3 rayDirection = -mesh.normals[i];
-            Debug.DrawRay(vertices[i], rayDirection, Color.black, 5f);
+            Debug.DrawRay(vertices[i] + transform.position, rayDirection, Color.black, 5f);
             RaycastHit hit;
-            if ( Physics.Raycast( vertices[i], rayDirection, out hit, 100f ) ) {
+            if ( Physics.Raycast( vertices[i] + transform.position, rayDirection, out hit, 100f ) ) {
                 Debug.Log("hit");
-                vertices[i] = hit.point * 2f;
+                vertices[i] = hit.point;
             }
             else {
                 Debug.Log("bad");
@@ -37,7 +37,7 @@ public class ShrinkWrapSphere : MonoBehaviour {
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();
         mesh.RecalculateTangents();
-        
+        transform.GetComponent<MeshRenderer>().enabled = true;
         transform.GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 }
