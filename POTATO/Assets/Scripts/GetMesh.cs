@@ -39,12 +39,14 @@ public class GetMesh : MonoBehaviour
                 //For loop that checks all the copied vertices of the component
                 for (int i=0; i < vertices.Length; i++) {
 
-                   //Gets all the copied vertices within a certain distance of the contact point
-                   if (Vector3.Distance(transform.TransformPoint(vertices[i]), c.point) <= 10)
+                    //Gets all the copied vertices within a certain distance of the contact point
+                    //still have to make a variable for the distance
+                    if (Vector3.Distance(transform.TransformPoint(vertices[i]), c.point) <= 2)
                     {
                         Debug.Log(vertices[i]);
-                        //Changes the position of the copied vertices
-                        vertices[i] = (vertices[i] + transform.InverseTransformVector(c.normal * 10));
+                        //Changes the position of the copied vertices in the direction of the collider's normal
+                        //Do this change times the scale / still have to make a variable for the scale
+                        vertices[i] = (vertices[i] + transform.InverseTransformVector(c.normal * 1));
                         Debug.Log("Changed vertices" + vertices[i]);
                     }
                 }
