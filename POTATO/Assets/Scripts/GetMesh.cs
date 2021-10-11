@@ -46,7 +46,7 @@ public class GetMesh : MonoBehaviour
                         Debug.Log(vertices[i]);
                         //Changes the position of the copied vertices in the direction of the collider's normal
                         //Do this change times the scale / still have to make a variable for the scale
-                        vertices[i] = (vertices[i] + transform.InverseTransformVector(c.normal * 1));
+                        vertices[i] = (vertices[i] + transform.InverseTransformVector(c.normal * 0.5f));
                         Debug.Log("Changed vertices" + vertices[i]);
                     }
                 }
