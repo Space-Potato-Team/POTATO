@@ -15,12 +15,12 @@ using UnityEngine;
         }
     }
 
-    public class Planet
+    public class IcoSphereMesh
     {
         public List<Polygon> m_Polygons;
         public List<Vector3> m_Vertices;
-
-        public void InitAsIcosohedron()
+        
+        public void InitAsIcosohedron(float range)
         {
             m_Polygons = new List<Polygon>();
             m_Vertices = new List<Vector3>();
@@ -32,6 +32,8 @@ using UnityEngine;
 
             float t = (1.0f + Mathf.Sqrt(5.0f)) / 2.0f;
 
+            
+            
             m_Vertices.Add(new Vector3(-1, t, 0).normalized);
             m_Vertices.Add(new Vector3(1, t, 0).normalized);
             m_Vertices.Add(new Vector3(-1, -t, 0).normalized);
@@ -80,12 +82,14 @@ using UnityEngine;
                 {
                     int a = poly.m_Vertices[0];
                     int b = poly.m_Vertices[1];
-                    int c = poly.m_Vertices[2]; // Use GetMidPointIndex to either create a
+                    int c = poly.m_Vertices[2]; 
+                    // Use GetMidPointIndex to either create a
                     // new vertex between two old vertices, or
                     // find the one that was already created.
                     int ab = GetMidPointIndex (midPointCache, a, b);
                     int bc = GetMidPointIndex(midPointCache, b, c);
-                    int ca = GetMidPointIndex(midPointCache, c, a); // Create the four new polygons using our original
+                    int ca = GetMidPointIndex(midPointCache, c, a); 
+                    // Create the four new polygons using our original
                     // three vertices, and the three new midpoints.
                     newPolys.Add (new Polygon (a, ab, ca));
                     newPolys.Add(new Polygon(b, bc, ab));
