@@ -204,7 +204,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 14.376, y: 0, z: 0}
 --- !u!1 &1341695358
 GameObject:
@@ -301,7 +301,7 @@ Transform:
   m_LocalScale: {x: 4.4486, y: 4.4486, z: 4.4486}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1341695363
 MonoBehaviour:
@@ -315,8 +315,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79b2a97e7091df74f93ab98467adb7eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  density: 5
+  gravityScript: {fileID: 11400000, guid: d1af422ab6c89a64f906ddba66745252, type: 2}
   volume: 0
+  density: 0.01
   rb: {fileID: 0}
 --- !u!54 &1341695364
 Rigidbody:
@@ -326,7 +327,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1341695358}
   serializedVersion: 2
-  m_Mass: 1000000
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
@@ -430,7 +431,7 @@ Transform:
   m_LocalScale: {x: 4.4486, y: 4.4486, z: 4.4486}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1351693312
 MonoBehaviour:
@@ -444,8 +445,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79b2a97e7091df74f93ab98467adb7eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  density: 5
+  gravityScript: {fileID: 11400000, guid: d1af422ab6c89a64f906ddba66745252, type: 2}
   volume: 0
+  density: 0.01
   rb: {fileID: 0}
 --- !u!54 &1351693313
 Rigidbody:
@@ -455,7 +457,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1351693307}
   serializedVersion: 2
-  m_Mass: 1000
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
@@ -496,8 +498,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79b2a97e7091df74f93ab98467adb7eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  density: 5
+  gravityScript: {fileID: 11400000, guid: d1af422ab6c89a64f906ddba66745252, type: 2}
   volume: 0
+  density: 0.01
   rb: {fileID: 0}
 --- !u!54 &1941522603
 Rigidbody:
@@ -510,7 +513,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
@@ -585,11 +588,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1941522601}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 57, y: 12.7, z: -5.088}
-  m_LocalScale: {x: 49.201427, y: 49.201427, z: 49.201427}
+  m_LocalPosition: {x: 48.6, y: 12.7, z: -5.088}
+  m_LocalScale: {x: 35.892036, y: 35.892036, z: 35.892036}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1979476247
 GameObject:
@@ -682,7 +685,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 39.158, y: 100.277, z: 7.814}
 --- !u!1 &2038681105
 GameObject:
@@ -779,7 +782,7 @@ Transform:
   m_LocalScale: {x: 4.4486, y: 4.4486, z: 4.4486}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2038681110
 MonoBehaviour:
@@ -793,8 +796,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79b2a97e7091df74f93ab98467adb7eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  density: 5
+  gravityScript: {fileID: 11400000, guid: d1af422ab6c89a64f906ddba66745252, type: 2}
   volume: 0
+  density: 0.01
   rb: {fileID: 0}
 --- !u!54 &2038681111
 Rigidbody:
@@ -804,7 +808,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2038681105}
   serializedVersion: 2
-  m_Mass: 1000
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
