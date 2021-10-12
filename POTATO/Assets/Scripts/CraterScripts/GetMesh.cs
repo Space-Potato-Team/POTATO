@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+
+[RequireComponent(typeof(AsteroidAttractor))]
 public class GetMesh : MonoBehaviour
 {
     public Mesh mesh;
@@ -10,12 +12,11 @@ public class GetMesh : MonoBehaviour
     public float craterWidth = 3;
 
     // Start is called before the first frame update
-    //[RequireComponent(typeof(AsteroidAttractor))]
     void Start()
     {
         // Get the mesh of the Component
         mesh = GetComponent<MeshFilter>().mesh;
-       
+        
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -56,11 +57,7 @@ public class GetMesh : MonoBehaviour
             //Destroy the Meteoroid
             Destroy(collision.gameObject);
 
-            //gameObject.GetComponent<AsteroidAttractor>()!.CalculateMass();
-        }
-            
+            gameObject.GetComponent<AsteroidAttractor>()!.CalculateMass();
+        }            
     }
-
-
-
 }
