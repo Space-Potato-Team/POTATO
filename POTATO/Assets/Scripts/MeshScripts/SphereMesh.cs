@@ -20,7 +20,7 @@ using UnityEngine;
         public List<Polygon> m_Polygons;
         public List<Vector3> m_Vertices;
         
-        public void InitAsIcosohedron(float range)
+        public void InitAsIcosohedron()
         {
             m_Polygons = new List<Polygon>();
             m_Vertices = new List<Vector3>();
