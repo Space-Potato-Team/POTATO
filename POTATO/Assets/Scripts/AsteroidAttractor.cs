@@ -67,8 +67,6 @@ public class AsteroidAttractor : MonoBehaviour
     {
         //set current object rigidbody
         rb = gameObject.GetComponent<Rigidbody>();
-        //set current object density based on users set density value
-        density = gravityScript.density;
 
         //caluclate and set mass of current object
         CalculateMass();
