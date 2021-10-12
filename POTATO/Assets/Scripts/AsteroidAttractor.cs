@@ -48,6 +48,18 @@ public class AsteroidAttractor : MonoBehaviour
         rbToAttract.AddForce(force);
     }
 
+    //calculates the mass of the current object
+    public void CalculateMass()
+    {
+        //get mesh of current object and get volume of that mesh and set it as current object volume
+        Mesh mesh = gameObject.GetComponent<MeshFilter>().sharedMesh;
+        //set volume based on localscale
+        volume = VolumeOfMesh(mesh);
+
+        //calculate and set mass by: volume * density
+        rb.mass = volume * density;
+    }
+
     //set base values when script is enabled
     void OnEnable()
     {
@@ -56,13 +68,8 @@ public class AsteroidAttractor : MonoBehaviour
         //set current object density based on users set density value
         density = gravityScript.density;
 
-        //get mesh of current object and get volume of that mesh and set it as current object volume
-        Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
-        //set volume based on localscale
-        volume = VolumeOfMesh(mesh);
-
-        //calculate and set mass by: volume * density
-        rb.mass = volume * density;
+        //caluclate and set mass of current object
+        CalculateMass();
         
         //set gravity to false for script to work
         rb.useGravity = false;
