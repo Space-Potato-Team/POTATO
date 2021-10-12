@@ -39,7 +39,8 @@ public class AsteroidAttractor : MonoBehaviour
         }
 
         //calculate strenght of pull using G * (mass / disance^2)
-        float forceMagnitude = G * (rb.mass * rbToAttract.mass) / Mathf.Pow(distance, 2);
+        //reversegravityscriptfalloff is the power of how long it takes for the objects to lose most gravitational pull, the higher the number the faster the fall off
+        float forceMagnitude = G * (rb.mass * rbToAttract.mass) / Mathf.Pow(distance, gravityScript.reverseGravityStrengthFallOff);
 
         //get correct direction for pull with calculated force
         Vector3 force = direction.normalized * forceMagnitude;

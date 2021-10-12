@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: GravityScriptableObject
   m_EditorClassIdentifier: 
   density: 0.01
-  reverseGravityDistanceStrength: 2.5
+  reverseGravityStrengthFallOff: 2
   attractors: []
