@@ -6,71 +6,85 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class AsteroidAttractor : MonoBehaviour
 {
+    //semi-realistic gravity strengh (unchangable)
     const float G = 667.4f;
 
+    //script with values for designers to play with
     public GravityScript gravityScript;
 
+    //volume and density of an object which can only be viewed
     [ReadOnly]
     public float volume;
     [ReadOnly]
     public float density;
 
+    //current object rigidbody
     public Rigidbody rb;
 
+    //AsteroidAttractor objToAttract: script of obj which has to be attracted to current obj
+    //function that attracts the given object to the current object using addforce
     void Attract(AsteroidAttractor objToAttract)
     {
+        //get other objects rigidboyd
         Rigidbody rbToAttract = objToAttract.rb;
 
-
-
+        //get distance lenght between current object and other object
         Vector3 direction = rb.position - rbToAttract.position;
         float distance = direction.magnitude;
 
+        //save resources if objects are next to each other
         if (distance == 0f)
         {
             return;
         }
 
+        //calculate strenght of pull using G * (mass / disance^2)
         float forceMagnitude = G * (rb.mass * rbToAttract.mass) / Mathf.Pow(distance, 2);
+
+        //get correct direction for pull with calculated force
         Vector3 force = direction.normalized * forceMagnitude;
 
+        //push the object towards current object (pull force)
         rbToAttract.AddForce(force);
     }
 
+    //set base values when script is enabled
     void OnEnable()
     {
-
-        //Mesh mesh = gameObject.GetComponent<MeshFilter>().mesh;
-        //volume = mesh.bounds.size.x * mesh.bounds.size.y * mesh.bounds.size.z;
-
+        //set current object rigidbody
         rb = gameObject.GetComponent<Rigidbody>();
+        //set current object density based on users set density value
         density = gravityScript.density;
 
-
+        //get mesh of current object and get volume of that mesh and set it as current object volume
         Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
+        //set volume based on localscale
         volume = VolumeOfMesh(mesh);
 
-
+        //calculate and set mass by: volume * density
         rb.mass = volume * density;
-
-        //Debug.Log("mass: " + rb.mass);
-        //Debug.Log("Volume: " + rb.mass / density);
+        
+        //set gravity to false for script to work
         rb.useGravity = false;
 
+        //add current script to array with all AsteroidAttractor scripts
         gravityScript.attractors.Add(this);
     }
 
+    //runs when current script is disabled
     private void OnDisable()
     {
+        //remove current script from array with all AsteroidAttractor scripts
         gravityScript.attractors.Remove(this);
     }
 
+    //runs every physics update
     void FixedUpdate()
     {
-        //AsteroidAttractor[] attractors = FindObjectsOfType<AsteroidAttractor>();
-        Debug.Log(gravityScript.attractors);
+        //calculate every gravity pull from all other AsteroidAttractor objects towards current object 
         foreach (AsteroidAttractor attractor in gravityScript.attractors)
         {
+            //doesn't attract current object to itselfs
             if (attractor != this)
             {
                 Attract(attractor);
@@ -78,9 +92,7 @@ public class AsteroidAttractor : MonoBehaviour
         }
     }
 
-
-
-
+    //calculate volume based on local scale
     public float SignedVolumeOfTriangle(Vector3 p1, Vector3 p2, Vector3 p3)
     {
         float v321 = p3.x * p2.y * p1.z;
@@ -93,9 +105,10 @@ public class AsteroidAttractor : MonoBehaviour
         return (1.0f / 6.0f) * (-v321 + v231 + v312 - v132 - v213 + v123);
     }
 
+    //calculate volume based on local scale
     public float VolumeOfMesh(Mesh mesh)
     {
-        float volume = 0;
+        float localVolume = 0;
 
         Vector3[] vertices = mesh.vertices;
         int[] triangles = mesh.triangles;
@@ -105,10 +118,10 @@ public class AsteroidAttractor : MonoBehaviour
             Vector3 p1 = vertices[triangles[i + 0]];
             Vector3 p2 = vertices[triangles[i + 1]];
             Vector3 p3 = vertices[triangles[i + 2]];
-            volume += SignedVolumeOfTriangle(p1, p2, p3);
+            localVolume += SignedVolumeOfTriangle(p1, p2, p3);
         }
-        volume *= this.transform.localScale.x * this.transform.localScale.y * this.transform.localScale.z;
-        return Mathf.Abs(volume);
+        localVolume *= this.transform.localScale.x * this.transform.localScale.y * this.transform.localScale.z;
+        return Mathf.Abs(localVolume);
     }
 }
 
