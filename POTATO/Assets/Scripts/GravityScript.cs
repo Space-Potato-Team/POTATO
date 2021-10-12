@@ -5,8 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GravityScriptableObject", menuName = "ScriptableObjects/GravityScriptableObject", order = 1)]
 public class GravityScript : ScriptableObject
 {
-    //all objects have 1 default density
-    public float density;
     //reversegravityscriptfalloff is the power of how long it takes for the objects to lose most gravitational pull, the higher the number the faster the fall off
     public float reverseGravityStrengthFallOff;
 

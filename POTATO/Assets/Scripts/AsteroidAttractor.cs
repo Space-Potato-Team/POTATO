@@ -12,10 +12,11 @@ public class AsteroidAttractor : MonoBehaviour
     //script with values for designers to play with
     public GravityScript gravityScript;
 
-    //volume and density of an object which can only be viewed
+    //volume of an object which can only be viewed
     [ReadOnly]
     public float volume;
-    [ReadOnly]
+
+    //set density
     public float density;
 
     //current object rigidbody
