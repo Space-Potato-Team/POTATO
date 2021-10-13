@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class ShrinkWrapMeshGenerateStep : GenerateStep
 {
-    private int subdivideRecursions = 3;
+    private int subdivideRecursions = 4;
+    private IndexFormat indexFormat = IndexFormat.UInt16;
     private string meshName = "Asteroid Mesh";
     private string shrinkObjectName = "ShrinkObject";
     
@@ -35,7 +37,7 @@ public class ShrinkWrapMeshGenerateStep : GenerateStep
         IcoSphereMesh ico = new IcoSphereMesh();
         ico.InitAsIcosohedron();
         ico.Subdivide(subdivideRecursions);
-        return ico.GenerateMesh();
+        return ico.GenerateMesh(indexFormat);
     }
 
     private GameObject AddShrinkGameObject(Mesh mesh, Transform parent)

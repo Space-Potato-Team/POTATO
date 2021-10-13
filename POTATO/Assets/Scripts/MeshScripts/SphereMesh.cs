@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
- 
-    
-    
-    public class Polygon
+
+public class Polygon
     {
         public List<int> m_Vertices;
 
@@ -131,14 +130,15 @@ using UnityEngine;
             return ret;
         }
         
-        public Mesh GenerateMesh()
+        public Mesh GenerateMesh(IndexFormat indexFormat = IndexFormat.UInt16)
         {
             
             
             // We'll store our planet's mesh in the m_PlanetMesh
             // variable so that we can delete the old copy when
             // we want to generate a new one.  if (m_PlanetMesh)
-            Mesh terrainMesh = new Mesh();  
+            Mesh terrainMesh = new Mesh();
+            terrainMesh.indexFormat = indexFormat;
             int vertexCount = m_Polygons.Count * 3;  
             int[] indices = new int[vertexCount];  
             Vector3[] vertices = new Vector3[vertexCount];
