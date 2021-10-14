@@ -8,20 +8,30 @@ using UnityEngine;
 public class GetMesh : MonoBehaviour
 {
     public Mesh mesh;
-    public float craterDepth = 3;
-    public float craterWidth = 3;
+
+    [Range(0, 10)]
+    public float craterDepth = 0;
+
+    [Range(0, 10)]
+    public float craterWidth = 0;
+
+    [Range(0, 10)]
+    public float minForceRequired = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         // Get the mesh of the Component
         mesh = GetComponent<MeshFilter>().mesh;
-        
+
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Meteoroid"))
+        float impact = collision.relativeVelocity.magnitude * collision.rigidbody.mass;
+
+        //Check if the relativeVelocity * Mass produces enough force to crater the asteroid
+        if (impact >= minForceRequired)
         {
             //Get all the vertices of the Component in an array
             Vector3[] vertices = new Vector3[mesh.vertices.Length];
@@ -33,15 +43,21 @@ public class GetMesh : MonoBehaviour
             foreach (ContactPoint c in collision.contacts)
             {
                 //For loop that checks all the copied vertices of the component
-                for (int i=0; i < vertices.Length; i++) {
+                for (int i = 0; i < vertices.Length; i++)
+                {
+                    float craterSize = impact * craterWidth;
+                    float distance = Vector3.Distance(transform.TransformPoint(vertices[i]), c.point);
 
                     //Gets all the copied vertices within a certain distance of the contact point
                     //still have to make a variable for the distance
-                    if (Vector3.Distance(transform.TransformPoint(vertices[i]), c.point) <= craterWidth)
+                    if (distance <= craterSize)
                     {
+                        float temp = impact * ((craterSize - distance) / craterSize);
+
                         //Changes the position of the copied vertices in the direction of the collider's normal
-                        //Do this change times the scale / still have to make a variable for the scale
-                        vertices[i] = (vertices[i] + transform.InverseTransformVector(c.normal * craterDepth));
+                        vertices[i] = (vertices[i] + transform.InverseTransformVector(c.normal * temp * craterDepth));
+
+
                     }
                 }
             }
@@ -54,10 +70,15 @@ public class GetMesh : MonoBehaviour
             mesh.RecalculateNormals();
             mesh.RecalculateTangents();
 
+            GetComponent<MeshCollider>().sharedMesh = mesh;
+
             //Destroy the Meteoroid
-            Destroy(collision.gameObject);
+            if (collision.collider.CompareTag("Meteoroid"))
+            {
+                Destroy(collision.gameObject);
+            }
 
             gameObject.GetComponent<AsteroidAttractor>()!.CalculateMass();
-        }            
+        }
     }
 }
