@@ -9,8 +9,6 @@ public class ShrinkWrapMeshGenerateStep : GenerateStep
     private IndexFormat indexFormat = IndexFormat.UInt32;
     private string meshName = "Asteroid Mesh";
     private string shrinkObjectName = "ShrinkObject";
-
-    public Mesh mesh;
     
     public override GameObject Process(GameObject gameObject)
     {
@@ -21,8 +19,8 @@ public class ShrinkWrapMeshGenerateStep : GenerateStep
         mesh.name = meshName;
         mesh.indexFormat = indexFormat;
 
-        // GameObject shrinkObject = AddShrinkGameObject(mesh, gameObject.transform);
-        // mesh = Shrink(shrinkObject, gameObject);
+        GameObject shrinkObject = AddShrinkGameObject(mesh, gameObject.transform);
+        mesh = Shrink(shrinkObject, gameObject);
         
         gameObject.GetComponent<MeshFilter>()!.mesh = mesh;
         gameObject.GetComponent<MeshCollider>()!.sharedMesh = mesh;

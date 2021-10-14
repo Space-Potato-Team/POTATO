@@ -5,27 +5,30 @@ using UnityEngine;
 
 public class SmoothMeshGenerateStep : GenerateStep
 {
+
+	private int smoothRecursions = 1;
+	
     public override GameObject Process(GameObject gameObject)
     {
-	    Mesh mesh = mattatz.MeshSmoothingSystem.MeshSmoothing.LaplacianFilter(gameObject.GetComponent<MeshFilter>().mesh, 3);
+	    Mesh mesh = MeshSmoothing.LaplacianFilter(gameObject.GetComponent<MeshFilter>().sharedMesh, smoothRecursions);
 		
 	    mesh.RecalculateBounds();
 	    mesh.RecalculateNormals();
 	    mesh.RecalculateTangents();
 	    
 	    gameObject.GetComponent<MeshFilter>().mesh = mesh;
-	    // gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
+	    gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
 	    
         return gameObject;
     }
 
     public override void AddGUI()
     {
+	    
     }
 }
 
 public class MeshSmoothing {
-
 	
 		public static Mesh LaplacianFilter (Mesh mesh, int times = 1) {
 			mesh.vertices = LaplacianFilter(mesh.vertices, mesh.triangles, times);

@@ -21,7 +21,6 @@ namespace mattatz.MeshSmoothingSystem {
 
 		public static Dictionary<int, VertexConnection> BuildNetwork (int[] triangles) {
 			var table = new Dictionary<int, VertexConnection>();
-			Debug.Log(triangles.Length);
 			for(int i = 0, n = triangles.Length; i < n; i += 3) {
 				int a = triangles[i], b = triangles[i + 1], c = triangles[i + 2];
 				if(!table.ContainsKey(a)) {

@@ -11,7 +11,6 @@ public class TestBehaviour : MonoBehaviour
     public void Test()
     {
         ShrinkWrapMeshGenerateStep step = new ShrinkWrapMeshGenerateStep();
-        step.mesh = _mesh;
         step.Process(gameObject);
         Debug.Log(gameObject.GetComponent<MeshFilter>().sharedMesh.triangles.Length);
     }
