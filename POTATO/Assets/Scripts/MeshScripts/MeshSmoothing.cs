@@ -1,32 +1,21 @@
+﻿/*
+ * @author mattatz / http://mattatz.github.io
+
+ * https://www.researchgate.net/publication/220507688_Improved_Laplacian_Smoothing_of_Noisy_Surface_Meshes
+ * http://graphics.stanford.edu/courses/cs468-12-spring/LectureSlides/06_smoothing.pdf
+ * http://wiki.unity3d.com/index.php?title=MeshSmoother
+ */
+
+using UnityEngine;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class SmoothMeshGenerateStep : GenerateStep
-{
-    public override GameObject Process(GameObject gameObject)
-    {
-	    Mesh mesh = mattatz.MeshSmoothingSystem.MeshSmoothing.LaplacianFilter(gameObject.GetComponent<MeshFilter>().mesh, 3);
-		
-	    mesh.RecalculateBounds();
-	    mesh.RecalculateNormals();
-	    mesh.RecalculateTangents();
-	    
-	    gameObject.GetComponent<MeshFilter>().mesh = mesh;
-	    // gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
-	    
-        return gameObject;
-    }
+namespace mattatz.MeshSmoothingSystem {
 
-    public override void AddGUI()
-    {
-    }
-}
+	public class MeshSmoothing {
 
-public class MeshSmoothing {
-
-	
 		public static Mesh LaplacianFilter (Mesh mesh, int times = 1) {
 			mesh.vertices = LaplacianFilter(mesh.vertices, mesh.triangles, times);
 			mesh.RecalculateNormals();
@@ -103,41 +92,5 @@ public class MeshSmoothing {
 
 	}
 
-	
-public class VertexConnection {
-
-	public HashSet<int> Connection { get { return connection; } }
-
-	HashSet<int> connection;
-
-	public VertexConnection() {
-		this.connection = new HashSet<int>();
-	}
-
-	public void Connect (int to) {
-		connection.Add(to);
-	}
-
-	public static Dictionary<int, VertexConnection> BuildNetwork (int[] triangles) {
-		var table = new Dictionary<int, VertexConnection>();
-
-		for(int i = 0, n = triangles.Length; i < n; i += 3) {
-			int a = triangles[i], b = triangles[i + 1], c = triangles[i + 2];
-			if(!table.ContainsKey(a)) {
-				table.Add(a, new VertexConnection());
-			}
-			if(!table.ContainsKey(b)) {
-				table.Add(b, new VertexConnection());
-			}
-			if(!table.ContainsKey(c)) {
-				table.Add(c, new VertexConnection());
-			}
-			table[a].Connect(b); table[a].Connect(c);
-			table[b].Connect(a); table[b].Connect(c);
-			table[c].Connect(a); table[c].Connect(b);
-		}
-
-		return table;
-	}
-
 }
+

@@ -143,27 +143,26 @@ public class Polygon
             int[] indices = new int[vertexCount];  
             Vector3[] vertices = new Vector3[vertexCount];
             Vector3[] normals  = new Vector3[vertexCount];
-            Color32[] colors   = new Color32[vertexCount];  
-            Color32 green = new Color32(20, 255, 30, 255);
-            Color32 brown = new Color32(220, 150, 70, 255);  for (int i = 0; i < m_Polygons.Count; i++)
+            for (int i = 0; i < m_Polygons.Count; i++)
             {
-                var poly = m_Polygons[i];    indices[i * 3 + 0] = i * 3 + 0;
+                var poly = m_Polygons[i];    
+                indices[i * 3 + 0] = i * 3 + 0;
                 indices[i * 3 + 1] = i * 3 + 1;
-                indices[i * 3 + 2] = i * 3 + 2;    vertices[i * 3 + 0] = m_Vertices[poly.m_Vertices[0]];
+                indices[i * 3 + 2] = i * 3 + 2;
+                vertices[i * 3 + 0] = m_Vertices[poly.m_Vertices[0]];
                 vertices[i * 3 + 1] = m_Vertices[poly.m_Vertices[1]];
-                vertices[i * 3 + 2] = m_Vertices[poly.m_Vertices[2]];    // Here's where we assign each polygon a random color.
-                Color32 polyColor = Color32.Lerp(green, brown,
-                    Random.Range(0.0f, 1.0f));    colors[i * 3 + 0] = polyColor;
-                colors[i * 3 + 1] = polyColor;
-                colors[i * 3 + 2] = polyColor;    // For now our planet is still perfectly spherical, so
+                vertices[i * 3 + 2] = m_Vertices[poly.m_Vertices[2]];
+                // Here's where we assign each polygon a random color.
+                // For now our planet is still perfectly spherical, so
                 // so the normal of each vertex is just like the vertex
                 // itself: pointing away from the origin.
                 normals[i * 3 + 0] = m_Vertices[poly.m_Vertices[0]];
                 normals[i * 3 + 1] = m_Vertices[poly.m_Vertices[1]];
                 normals[i * 3 + 2] = m_Vertices[poly.m_Vertices[2]];
-            }  terrainMesh.vertices = vertices;
+            }  
+            terrainMesh.vertices = vertices;
             terrainMesh.normals = normals;
-            terrainMesh.colors32 = colors;  terrainMesh.SetTriangles(indices, 0);
+            terrainMesh.SetTriangles(indices, 0);
             return terrainMesh;
         }
     }

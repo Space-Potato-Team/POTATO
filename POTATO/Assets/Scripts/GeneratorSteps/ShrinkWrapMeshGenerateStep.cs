@@ -5,10 +5,12 @@ using UnityEngine.Rendering;
 
 public class ShrinkWrapMeshGenerateStep : GenerateStep
 {
-    private int subdivideRecursions = 4;
-    private IndexFormat indexFormat = IndexFormat.UInt16;
+    private int subdivideRecursions = 5;
+    private IndexFormat indexFormat = IndexFormat.UInt32;
     private string meshName = "Asteroid Mesh";
     private string shrinkObjectName = "ShrinkObject";
+
+    public Mesh mesh;
     
     public override GameObject Process(GameObject gameObject)
     {
@@ -17,8 +19,10 @@ public class ShrinkWrapMeshGenerateStep : GenerateStep
 
         Mesh mesh = GetIcoSphereMesh();
         mesh.name = meshName;
-        GameObject shrinkObject = AddShrinkGameObject(mesh, gameObject.transform);
-        mesh = Shrink(shrinkObject, gameObject);
+        mesh.indexFormat = indexFormat;
+
+        // GameObject shrinkObject = AddShrinkGameObject(mesh, gameObject.transform);
+        // mesh = Shrink(shrinkObject, gameObject);
         
         gameObject.GetComponent<MeshFilter>()!.mesh = mesh;
         gameObject.GetComponent<MeshCollider>()!.sharedMesh = mesh;
