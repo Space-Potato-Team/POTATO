@@ -10,6 +10,13 @@ public class TestBehaviour : MonoBehaviour
     {
         ShrinkWrapMeshGenerateStep step = new ShrinkWrapMeshGenerateStep();
         step.Process(gameObject);
+        Debug.Log(gameObject.GetComponent<MeshFilter>().sharedMesh.triangles.Length);
+    }
+
+    public void Test2()
+    {
+        SmoothMeshGenerateStep step = new SmoothMeshGenerateStep();
+        step.Process(gameObject);
     }
 
     private void OnDrawGizmos()
@@ -27,9 +34,14 @@ public class TestBehaviourEditor : Editor
 
         DrawDefaultInspector();
         TestBehaviour script = (TestBehaviour)target;
-        if(GUILayout.Button("Setup"))
+        if(GUILayout.Button("step 1"))
         {
             script.Test();
+        }
+        
+        if(GUILayout.Button("step 2"))
+        {
+            script.Test2();
         }
     }
 }
