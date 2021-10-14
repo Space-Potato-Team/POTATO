@@ -42,6 +42,7 @@ public class GetMesh : MonoBehaviour
             //Check all the contactpoints of the collision
             foreach (ContactPoint c in collision.contacts)
             {
+                Debug.Log(c.normal);
                 //For loop that checks all the copied vertices of the component
                 for (int i = 0; i < vertices.Length; i++)
                 {
