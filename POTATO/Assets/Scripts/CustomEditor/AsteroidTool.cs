@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class AsteroidTool : EditorWindow
 {
@@ -68,12 +69,13 @@ public class AsteroidTool : EditorWindow
             child.transform.parent = asteroid.transform;
         }
 
-        EditorGUI.BeginDisabledGroup(asteroid == null && asteroidData != null);
+        EditorGUI.BeginDisabledGroup(asteroid == null);
 
-        asteroidAttractor.density = EditorGUILayout.Slider(asteroidAttractor!.density, 0, 100);
-        asteroidData!.subDivideRecursions = EditorGUILayout.IntField(asteroidData!.subDivideRecursions);
-        asteroidData!.smoothRecursions = EditorGUILayout.IntField(asteroidData!.smoothRecursions);
-
+        asteroidData!.asteroidDensity = EditorGUILayout.Slider("Asteroid Density:",asteroidData!.asteroidDensity, 0, 100);
+        asteroidData!.subDivideRecursions = EditorGUILayout.IntField("Subdivide Recursions:", asteroidData!.subDivideRecursions);
+        asteroidData!.smoothRecursions = EditorGUILayout.IntField("Smoothing Recursions:", asteroidData!.smoothRecursions);
+        asteroidData!.indexFormat = (IndexFormat) EditorGUILayout.EnumPopup(asteroidData!.indexFormat);
+        
         EditorGUI.EndDisabledGroup();
 
         // Fold menu for child menu
