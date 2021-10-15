@@ -64,7 +64,7 @@ public class AsteroidTool : EditorWindow
 
             asteroidAttractor = asteroid.AddComponent<AsteroidAttractor>();
             
-            GameObject child = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            GameObject child = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             child.transform.parent = asteroid.transform;
         }
 
@@ -77,13 +77,27 @@ public class AsteroidTool : EditorWindow
         EditorGUI.EndDisabledGroup();
 
         // Fold menu for child menu
-        isFolded = EditorGUILayout.Foldout(isFolded, "Child object");
+        isFolded = EditorGUILayout.Foldout(isFolded, "Add Object");
 
         if (isFolded)
         {
-            if (GUILayout.Button("Generate Object"))
+            if (GUILayout.Button("Add Cube"))
             {
-                CreateChildObject();
+                CreateChildObject(GameObject.CreatePrimitive(PrimitiveType.Cube));
+            }
+
+            if (GUILayout.Button("Add Sphere"))
+            {
+                CreateChildObject(GameObject.CreatePrimitive(PrimitiveType.Sphere));
+            }
+
+            if (GUILayout.Button("Add Cylinder"))
+            {
+                CreateChildObject(GameObject.CreatePrimitive(PrimitiveType.Cylinder));
+            }
+            if (GUILayout.Button("Add Capsule"))
+            {
+                CreateChildObject(GameObject.CreatePrimitive(PrimitiveType.Capsule));
             }
         }
 
@@ -104,12 +118,12 @@ public class AsteroidTool : EditorWindow
     }
 
     // Method for creating a child object for the asteroid
-    private void CreateChildObject()
+    private void CreateChildObject(GameObject obj)
     {
 
         if (asteroid != null)
         {
-            GameObject child = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            GameObject child = obj;
 
             //Check if asteroid already has a child so the next child is placed properly 
             if (asteroid.transform.childCount > 0)
@@ -144,7 +158,6 @@ public class AsteroidTool : EditorWindow
             }
         }
     }
-
 
     public void OnInspectorUpdate()
     {
