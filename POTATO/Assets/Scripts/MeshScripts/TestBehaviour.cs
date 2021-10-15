@@ -6,8 +6,9 @@ using UnityEditor;
 
 public class TestBehaviour : MonoBehaviour
 {
-
+    [SerializeField] private Camera _camera;
     [SerializeField] private Mesh _mesh;
+    [SerializeField] private Transform craterPoint;
     public void Test()
     {
         ShrinkWrapMeshGenerateStep step = new ShrinkWrapMeshGenerateStep();
@@ -24,6 +25,14 @@ public class TestBehaviour : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawCube(transform.position, new Vector3(0.5f,0.5f,0.5f));
+    }
+
+    private void OnMouseDown()
+    {
+        _mesh = GetComponent<MeshFilter>()!.mesh;
+        GetComponent<MeshFilter>()!.mesh = 
+        CraterCreator.addCraterToMeshOnPosition(_mesh, 
+            transform.InverseTransformPoint(craterPoint.position), craterPoint.forward * 1, 0.1f);
     }
 }
 
