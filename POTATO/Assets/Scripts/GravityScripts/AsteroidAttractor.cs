@@ -34,7 +34,7 @@ public class AsteroidAttractor : MonoBehaviour
         float distance = direction.magnitude;
 
         //save resources if objects are next to each other
-        if (distance == 0f)
+        if (distance <= 0.01f)
         {
             return;
         }
