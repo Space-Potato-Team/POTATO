@@ -7,6 +7,8 @@ public class AsteroidTool : EditorWindow
 {
     GameObject asteroid;
 
+    AsteroidData asteroidData;
+
     AsteroidAttractor asteroidAttractor;
 
     // Bool that keeps track if the child window is folded out or in
@@ -26,8 +28,8 @@ public class AsteroidTool : EditorWindow
     public void Awake()
     {
         steps = new List<GenerateStep>();
-        steps.Add(new Step());
-        steps.Add(new Step());
+        steps.Add(new ShrinkWrapMeshGenerateStep());
+        steps.Add(new SmoothMeshGenerateStep());
 
         SetEditorSelectedObject();
 
@@ -38,6 +40,7 @@ public class AsteroidTool : EditorWindow
         {
                 //TODO Find a better way to make it not null
             asteroidAttractor = new AsteroidAttractor();
+            asteroidData = new AsteroidData();
         }
     }
 
@@ -49,18 +52,29 @@ public class AsteroidTool : EditorWindow
 
     private void OnGUI()
     {
-        EditorGUI.BeginDisabledGroup(asteroid == null);
 
-        asteroidAttractor.density = EditorGUILayout.Slider(asteroidAttractor.density, 0, 100);
-
-        EditorGUI.EndDisabledGroup();
-
-        if (GUILayout.Button("Generate Object"))
+        if (GUILayout.Button("Generate Asteroid"))
         {
             asteroid = new GameObject("Asteroid");
             asteroid.transform.position = new Vector3(0, 0, 0);
+            asteroid.AddComponent<MeshFilter>();
+            asteroid.AddComponent<MeshRenderer>();
+            asteroid.AddComponent<MeshCollider>();
+            asteroidData = asteroid.AddComponent<AsteroidData>();
+
             asteroidAttractor = asteroid.AddComponent<AsteroidAttractor>();
+            
+            GameObject child = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            child.transform.parent = asteroid.transform;
         }
+
+        EditorGUI.BeginDisabledGroup(asteroid == null && asteroidData != null);
+
+        asteroidAttractor.density = EditorGUILayout.Slider(asteroidAttractor!.density, 0, 100);
+        asteroidData!.subDivideRecursions = EditorGUILayout.IntField(asteroidData!.subDivideRecursions);
+        asteroidData!.smoothRecursions = EditorGUILayout.IntField(asteroidData!.smoothRecursions);
+
+        EditorGUI.EndDisabledGroup();
 
         // Fold menu for child menu
         isFolded = EditorGUILayout.Foldout(isFolded, "Child object");
@@ -73,20 +87,20 @@ public class AsteroidTool : EditorWindow
             }
         }
 
-        if (GUILayout.Button("Generate Asteroid"))
+        if (GUILayout.Button("Export"))
         {
             // Ask if the user is sure the want to generate the asteroid if the click the yes button then the asteroid can be generated
-            if (EditorUtility.DisplayDialog("Warning", "Generating the asteroid may take some time. Are you sure you want to proceed?", "Cancel", "Ok"))
+            if (!EditorUtility.DisplayDialog("Warning", "Generating the asteroid may take some time. Are you sure you want to proceed?", "Cancel", "Ok"))
             {
-                //TODO Generate Asteroid 
+                    foreach(GenerateStep step in steps)
+                    {
+                            step.Process(asteroid);
+                    }
             }
         }
 
         //This starts fold out window for all the generation steps
-        foreach (GenerateStep step in steps)
-        {
-            step.AddGUI();
-        }
+
     }
 
     // Method for creating a child object for the asteroid
@@ -135,29 +149,5 @@ public class AsteroidTool : EditorWindow
     public void OnInspectorUpdate()
     {
         this.Repaint();
-    }
-}
-
-public class Step : GenerateStep
-{
-    //This value has to static otherwise it does not save
-    static private float density;
-
-    override public GameObject Process(GameObject gameObject)
-    {
-        return null;
-    }
-
-    bool isFolded = true;
-    override public void AddGUI()
-    {
-
-        isFolded = EditorGUILayout.Foldout(isFolded, "Input step name here");
-
-        if (isFolded)
-        {
-            density = EditorGUILayout.Slider(density, 0, 100);
-        }
-
     }
 }
