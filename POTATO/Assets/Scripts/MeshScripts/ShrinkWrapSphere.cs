@@ -7,13 +7,12 @@ using UnityEngine.SocialPlatforms;
 
 public class ShrinkWrapSphere : MonoBehaviour
 {
-    [SerializeField] public float range = 1;
     [SerializeField, Range(0,4)] private int subdivideRecursions;
     
     public void Setup()
     {
         IcoSphereMesh ico = new IcoSphereMesh();
-        ico.InitAsIcosohedron(range);
+        ico.InitAsIcosohedron();
         ico.Subdivide(subdivideRecursions);
         Mesh mesh = ico.GenerateMesh();
         GetComponent<MeshFilter>().mesh = mesh;
@@ -24,12 +23,12 @@ public class ShrinkWrapSphere : MonoBehaviour
     {
         MeshFilter meshFilter = GetComponent<MeshFilter>();
         Mesh mesh = meshFilter.sharedMesh;
-
+        
         GetComponent<MeshCollider>().enabled = false;
         
         Vector3[] vertices = new Vector3[mesh.vertices.Length];
         System.Array.Copy(mesh.vertices, vertices, vertices.Length);
-
+        
         for (int i = 0; i < vertices.Length; i++) {
             Vector3 rayDirection = -mesh.normals[i];
             RaycastHit hit;
@@ -47,7 +46,7 @@ public class ShrinkWrapSphere : MonoBehaviour
                 vertices[i] = Vector3.zero;
             }
         }
-
+        
         mesh.vertices = vertices;
         Debug.Log("Done. Vertices count " + vertices.Length);
         mesh.RecalculateBounds();
