@@ -6,11 +6,10 @@ using UnityEngine;
 public class SmoothMeshGenerateStep : GenerateStep
 {
 
-	private int smoothRecursions = 1;
 	
     public override GameObject Process(GameObject gameObject)
     {
-	    Mesh mesh = MeshSmoothing.LaplacianFilter(gameObject.GetComponent<MeshFilter>().sharedMesh, smoothRecursions);
+	    Mesh mesh = MeshSmoothing.LaplacianFilter(gameObject.GetComponent<MeshFilter>()!.sharedMesh, gameObject.GetComponent<AsteroidData>()!.smoothRecursions);
 		
 	    mesh.RecalculateBounds();
 	    mesh.RecalculateNormals();
