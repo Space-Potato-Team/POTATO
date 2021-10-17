@@ -5,29 +5,28 @@ using UnityEngine;
 
 public class CraterCreator
 {
-
     public static Mesh addCraterToMeshOnPosition(Mesh mesh, Vector3 position, Vector3 direction, float craterSize)
     {
-        
         //Get all the vertices of the Component in an array
         List<Vector3> vertices = mesh.vertices.ToList();
-
+        //Get the impact force
+        float impact = direction.magnitude;
         for (int i = 0; i < vertices.Count; i++)
         {
-            float impact = direction.magnitude;
+            //Get the distance of the vertex to the center of the crater.
             float distance = Vector3.Distance(vertices[i], position);
-                
-                //Gets all the copied vertices within a certain distance of the contact point
-                //still have to make a variable for the distance
+            
+            //Check if the distance falls within the range of the crater.   
             if (distance <= craterSize)
             {
-                    float temp = impact * ((craterSize - distance) / craterSize);
-                
-                    //Changes the position of the copied vertices in the direction of the collider's normal
-                    vertices[i] = (vertices[i] + direction * temp * craterSize);
-                
-                }
+                //Calculate the offset the vertex needs to be moved with.
+                float temp = impact * Mathf.Pow((craterSize - distance) / craterSize, 0.5f);
+
+                //Changes the position of the copied vertices using the direction of the crater, vertex offset and the cratersize.
+                vertices[i] = (vertices[i] + direction * temp * craterSize);
+            }
         }
+
         mesh.vertices = vertices.ToArray();
         return mesh;
     }

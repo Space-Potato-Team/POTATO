@@ -13,7 +13,6 @@ public class TestBehaviour : MonoBehaviour
     {
         ShrinkWrapMeshGenerateStep step = new ShrinkWrapMeshGenerateStep();
         step.Process(gameObject);
-        Debug.Log(gameObject.GetComponent<MeshFilter>().sharedMesh.triangles.Length);
     }
 
     public void Test2()
@@ -22,17 +21,18 @@ public class TestBehaviour : MonoBehaviour
         step.Process(gameObject);
     }
 
-    private void OnDrawGizmos()
+    public void Test3()
     {
-        Gizmos.DrawCube(transform.position, new Vector3(0.5f,0.5f,0.5f));
+        DetailGenerateStep step = new DetailGenerateStep();
+        step.Process(gameObject);
     }
 
-    private void OnMouseDown()
+    public void Test4()
     {
-        _mesh = GetComponent<MeshFilter>()!.mesh;
-        GetComponent<MeshFilter>()!.mesh = 
-        CraterCreator.addCraterToMeshOnPosition(_mesh, 
-            transform.InverseTransformPoint(craterPoint.position), craterPoint.forward * 1, 0.1f);
+        foreach (Transform child in transform)
+        {
+            Debug.DrawRay(child.GetComponent<Collider>().bounds.max, Vector3.up * 10f, Color.cyan, 10f);
+        }
     }
 }
 
@@ -53,6 +53,16 @@ public class TestBehaviourEditor : Editor
         if(GUILayout.Button("step 2"))
         {
             script.Test2();
+        }
+        
+        if(GUILayout.Button("step 3"))
+        {
+            script.Test3();
+        }
+        
+        if(GUILayout.Button("test"))
+        {
+            script.Test4();
         }
     }
 }
