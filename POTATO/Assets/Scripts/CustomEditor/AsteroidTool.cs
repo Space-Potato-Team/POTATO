@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 
 public class AsteroidTool : EditorWindow
 {
-    private int CHILD_OBJECT = 0, MESH_SETTINGS = 1, SHADER_SETTINGS = 2, CRATER_SETTINGS = 3;
+    private int CHILD_OBJECT = 0, MESH_SETTINGS = 1, CRATER_SETTINGS = 2;
 
     GameObject asteroid;
 
@@ -33,6 +33,7 @@ public class AsteroidTool : EditorWindow
         steps = new List<GenerateStep>();
         steps.Add(new ShrinkWrapMeshGenerateStep());
         steps.Add(new SmoothMeshGenerateStep());
+        steps.Add(new DetailGenerateStep());
         steps.Add(new DetailShaderGenerateStep());
 
         SetEditorSelectedObject();
@@ -43,7 +44,7 @@ public class AsteroidTool : EditorWindow
             asteroidData = asteroid.GetComponent<AsteroidData>();
         }
 
-        foldList = new bool[] { false, false, false, false };
+        foldList = new bool[] { false, false, false };
     }
 
     //Update with method to refresh the selection of the user in the editor
@@ -112,7 +113,7 @@ public class AsteroidTool : EditorWindow
             if (foldList[MESH_SETTINGS])
             {
 
-                asteroidData!.subDivideRecursions = EditorGUILayout.IntField("Subdivide Recursions:", asteroidData!.subDivideRecursions);
+                asteroidData!.subDivideRecursions = EditorGUILayout.IntSlider("Subdivide Recursions:", asteroidData!.subDivideRecursions, 1, 6);
                 asteroidData!.smoothRecursions = EditorGUILayout.IntField("Smoothing Recursions:", asteroidData!.smoothRecursions);
                 asteroidData!.indexFormat = (IndexFormat)EditorGUILayout.EnumPopup(asteroidData!.indexFormat);
 
@@ -129,20 +130,17 @@ public class AsteroidTool : EditorWindow
                 }
             }
 
-            // Fold menu for shader settings 
-            foldList[SHADER_SETTINGS] = EditorGUILayout.Foldout(foldList[SHADER_SETTINGS], "Shader settings");
-
-            if (foldList[SHADER_SETTINGS])
-            {
-
-            }
-
             // Fold menu for crater settings 
             foldList[CRATER_SETTINGS] = EditorGUILayout.Foldout(foldList[CRATER_SETTINGS], "Crater settings");
 
             if (foldList[CRATER_SETTINGS])
             {
-                //TODO shader input
+                asteroidData!.maxCraterSize = EditorGUILayout.FloatField("Max crater size", asteroidData!.maxCraterSize);
+                asteroidData!.minCraterSize = EditorGUILayout.FloatField("Min crater size", asteroidData!.minCraterSize);
+                asteroidData!.CraterAmount = EditorGUILayout.IntField("Amount of craters", asteroidData!.CraterAmount);
+                asteroidData!.CraterDepth = EditorGUILayout.FloatField("Depth of crater", asteroidData!.CraterDepth);
+                asteroidData!.minForceRequired = EditorGUILayout.FloatField("Min force required", asteroidData!.minForceRequired);
+                asteroidData!.addColisions = EditorGUILayout.Toggle("Add collisions", asteroidData!.addColisions);
             }
         }
         else
@@ -211,7 +209,6 @@ public class AsteroidTool : EditorWindow
 
         EditorGUILayout.Foldout(foldList[CRATER_SETTINGS], "Add object");
         EditorGUILayout.Foldout(foldList[CRATER_SETTINGS], "Mesh settings");
-        EditorGUILayout.Foldout(foldList[CRATER_SETTINGS], "Shader settings");
         EditorGUILayout.Foldout(foldList[CRATER_SETTINGS], "Crater settings");
 
         EditorGUI.EndDisabledGroup();
