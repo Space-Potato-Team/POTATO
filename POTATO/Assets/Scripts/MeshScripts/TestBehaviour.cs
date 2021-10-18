@@ -12,7 +12,7 @@ public class TestBehaviour : MonoBehaviour
 
     private void Start()
     {
-        GetComponent<Rigidbody>().AddTorque(new Vector3(0.7f, 0.5f, 0.4f));
+        //GetComponent<Rigidbody>().AddTorque(new Vector3(0.7f, 0.5f, 0.4f));
     }
 
     public void Test()

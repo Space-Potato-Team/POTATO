@@ -13,7 +13,18 @@ public class DetailGenerateStep : GenerateStep
             data!.maxCraterSize, data!.minCraterSize, data!.CraterDepth);
         gameObject.GetComponent<MeshFilter>()!.mesh = mesh;
         gameObject.GetComponent<MeshCollider>()!.sharedMesh = mesh;
-        
+
+        if (data.addColisions)
+        {
+            gameObject.AddComponent<CollisionCraters>();
+        }
+
+        if (data.addGravity)
+        {
+            var asteroidAttractor = gameObject.AddComponent<AsteroidAttractor>();
+            asteroidAttractor.density = data.asteroidDensity;
+        }
+
         return gameObject;
     }
 
