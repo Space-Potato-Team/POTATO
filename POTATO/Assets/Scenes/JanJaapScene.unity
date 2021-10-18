@@ -316,15 +316,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3122729092445634215, guid: bc7b1922c1ae29d43b16b15ba537dc3e, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3122729092445634215, guid: bc7b1922c1ae29d43b16b15ba537dc3e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3122729092445634215, guid: bc7b1922c1ae29d43b16b15ba537dc3e, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3122729092445634215, guid: bc7b1922c1ae29d43b16b15ba537dc3e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -455,7 +455,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 743b75c19f8c0d24c876cedb17a7dc58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 1
   subdivideRecursions: 4
 --- !u!64 &770441013
 MeshCollider:
@@ -482,6 +481,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -722,7 +722,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1983801403}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc523e8ac0b3b9141896b859c22b8ee3, type: 3}
   m_Name: 

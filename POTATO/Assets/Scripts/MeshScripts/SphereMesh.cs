@@ -109,6 +109,23 @@ public class IcoSphereMesh
         return ret;
     }
 
+    private Vector2[] CreateUV (Vector3[] vertices)
+    {
+        Vector2[] uv = new Vector2[vertices.Length];
+        for (int i = 0; i < vertices.Length; i++) {
+            Vector3 v = vertices[i];
+            Vector2 textureCoordinates;
+            textureCoordinates.x = Mathf.Atan2(v.x, v.z) / (-2f * Mathf.PI);
+            if (textureCoordinates.x < 0f) {
+                textureCoordinates.x += 1f;
+            }
+            textureCoordinates.y = Mathf.Asin(v.y) / Mathf.PI + 0.5f;
+            uv[i] = textureCoordinates;
+        }
+
+        return uv;
+    }
+    
     public Mesh GenerateMesh(IndexFormat indexFormat = IndexFormat.UInt16)
     {
         Mesh terrainMesh = new Mesh();
@@ -126,6 +143,7 @@ public class IcoSphereMesh
         
         terrainMesh.vertices = verticesList.ToArray();
         terrainMesh.normals = verticesList.ToArray();
+        terrainMesh.uv = CreateUV(terrainMesh.vertices);
         terrainMesh.SetTriangles(indices, 0);
         terrainMesh.RecalculateTangents();
         return terrainMesh;
