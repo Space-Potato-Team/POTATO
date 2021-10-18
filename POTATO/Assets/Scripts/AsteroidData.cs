@@ -8,6 +8,7 @@ public class AsteroidData : MonoBehaviour
     public float ShrinkDiameter;
     
     public float asteroidDensity;
+    public bool addGravity;
     
     //Crater fields
     public float CraterGrouping;
@@ -16,4 +17,6 @@ public class AsteroidData : MonoBehaviour
     public float minCraterSize;
     public int CraterAmount;
     public float CraterDepth;
+    public float minForceRequired;
+    public bool addColisions;
 }
