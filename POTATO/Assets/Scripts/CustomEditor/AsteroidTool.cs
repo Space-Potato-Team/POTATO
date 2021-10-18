@@ -40,12 +40,7 @@ public class AsteroidTool : EditorWindow
         if (asteroid != null)
         {
             asteroidAttractor = asteroid.GetComponent<AsteroidAttractor>();
-        }
-        else
-        {
-            //TODO Find a better way to make it not null
-            asteroidAttractor = new AsteroidAttractor();
-            asteroidData = new AsteroidData();
+            asteroidData = asteroid.GetComponent<AsteroidData>();
         }
 
         foldList = new bool[] { false, false, false, false };
@@ -75,80 +70,88 @@ public class AsteroidTool : EditorWindow
             child.transform.parent = asteroid.transform;
         }
 
-        GUILayout.Label("Base Settings", EditorStyles.boldLabel);
-
-        EditorGUI.BeginDisabledGroup(asteroid == null);
-
-        asteroidData!.asteroidDensity = EditorGUILayout.Slider("Asteroid Density:", asteroidData!.asteroidDensity, 0, 100);
-
-        EditorGUI.EndDisabledGroup();
-
-        // Fold menu for child menu
-        foldList[CHILD_OBJECT] = EditorGUILayout.Foldout(foldList[CHILD_OBJECT], "Add Object");
-
-        if (foldList[CHILD_OBJECT])
+        //Check if asteroid is null if it is then set placeholders
+        if (asteroid != null)
         {
-            if (GUILayout.Button("Add Cube"))
-            {
-                CreateChildObject(PrimitiveType.Cube);
-            }
+            GUILayout.Label("Base Settings", EditorStyles.boldLabel);
 
-            if (GUILayout.Button("Add Sphere"))
-            {
-                CreateChildObject(PrimitiveType.Sphere);
-            }
+            EditorGUI.BeginDisabledGroup(asteroidData == null);
 
-            if (GUILayout.Button("Add Cylinder"))
-            {
-                CreateChildObject(PrimitiveType.Cylinder);
-            }
-            if (GUILayout.Button("Add Capsule"))
-            {
-                CreateChildObject(PrimitiveType.Capsule);
-            }
-        }
-
-        // Fold menu for mesh menu
-        foldList[MESH_SETTINGS] = EditorGUILayout.Foldout(foldList[MESH_SETTINGS], "Mesh settings");
-
-        if (foldList[MESH_SETTINGS])
-        {
-
-            EditorGUI.BeginDisabledGroup(asteroid == null);
-
-            asteroidData!.subDivideRecursions = EditorGUILayout.IntField("Subdivide Recursions:", asteroidData!.subDivideRecursions);
-            asteroidData!.smoothRecursions = EditorGUILayout.IntField("Smoothing Recursions:", asteroidData!.smoothRecursions);
-            asteroidData!.indexFormat = (IndexFormat)EditorGUILayout.EnumPopup(asteroidData!.indexFormat);
+            asteroidData!.asteroidDensity = EditorGUILayout.Slider("Asteroid Density:", asteroidData!.asteroidDensity, 0, 100);
 
             EditorGUI.EndDisabledGroup();
 
-            if (GUILayout.Button("Export"))
+            // Fold menu for child menu
+            foldList[CHILD_OBJECT] = EditorGUILayout.Foldout(foldList[CHILD_OBJECT], "Add Object");
+
+            if (foldList[CHILD_OBJECT])
             {
-                // Ask if the user is sure the want to generate the asteroid if the click the yes button then the asteroid can be generated
-                if (!EditorUtility.DisplayDialog("Warning", "Generating the asteroid may take some time. Are you sure you want to proceed?", "Cancel", "Ok"))
+                if (GUILayout.Button("Add Cube"))
                 {
-                    foreach (GenerateStep step in steps)
+                    CreateChildObject(PrimitiveType.Cube);
+                }
+
+                if (GUILayout.Button("Add Sphere"))
+                {
+                    CreateChildObject(PrimitiveType.Sphere);
+                }
+
+                if (GUILayout.Button("Add Cylinder"))
+                {
+                    CreateChildObject(PrimitiveType.Cylinder);
+                }
+                if (GUILayout.Button("Add Capsule"))
+                {
+                    CreateChildObject(PrimitiveType.Capsule);
+                }
+            }
+
+            // Fold menu for mesh menu
+            foldList[MESH_SETTINGS] = EditorGUILayout.Foldout(foldList[MESH_SETTINGS], "Mesh settings");
+
+            if (foldList[MESH_SETTINGS])
+            {
+
+                EditorGUI.BeginDisabledGroup(asteroid == null);
+
+                asteroidData!.subDivideRecursions = EditorGUILayout.IntField("Subdivide Recursions:", asteroidData!.subDivideRecursions);
+                asteroidData!.smoothRecursions = EditorGUILayout.IntField("Smoothing Recursions:", asteroidData!.smoothRecursions);
+                asteroidData!.indexFormat = (IndexFormat)EditorGUILayout.EnumPopup(asteroidData!.indexFormat);
+
+                EditorGUI.EndDisabledGroup();
+
+                if (GUILayout.Button("Export"))
+                {
+                    // Ask if the user is sure the want to generate the asteroid if the click the yes button then the asteroid can be generated
+                    if (!EditorUtility.DisplayDialog("Warning", "Generating the asteroid may take some time. Are you sure you want to proceed?", "Cancel", "Ok"))
                     {
-                        step.Process(asteroid);
+                        foreach (GenerateStep step in steps)
+                        {
+                            step.Process(asteroid);
+                        }
                     }
                 }
             }
+
+            // Fold menu for shader settings 
+            foldList[SHADER_SETTINGS] = EditorGUILayout.Foldout(foldList[SHADER_SETTINGS], "Shader settings");
+
+            if (foldList[SHADER_SETTINGS])
+            {
+
+            }
+
+            // Fold menu for crater settings 
+            foldList[CRATER_SETTINGS] = EditorGUILayout.Foldout(foldList[CRATER_SETTINGS], "Crater settings");
+
+            if (foldList[CRATER_SETTINGS])
+            {
+                //TODO shader input
+            }
         }
-
-        // Fold menu for shader settings 
-        foldList[SHADER_SETTINGS] = EditorGUILayout.Foldout(foldList[SHADER_SETTINGS], "Shader settings");
-
-        if (foldList[SHADER_SETTINGS])
+        else
         {
-
-        }
-
-        // Fold menu for crater settings 
-        foldList[CRATER_SETTINGS] = EditorGUILayout.Foldout(foldList[CRATER_SETTINGS], "Crater settings");
-
-        if (foldList[CRATER_SETTINGS])
-        {
-            //TODO shader input
+            SetPlaceholders();
         }
     }
 
@@ -189,8 +192,27 @@ public class AsteroidTool : EditorWindow
             if (selectedObject.name == "Asteroid")
             {
                 asteroid = selectedObject;
+                asteroidData = asteroid.GetComponent<AsteroidData>();
+                asteroidAttractor = asteroid.GetComponent<AsteroidAttractor>();
             }
         }
+    }
+
+    public void SetPlaceholders()
+    {
+
+        EditorGUI.BeginDisabledGroup(asteroidData == null);
+
+        GUILayout.Label("Base Settings", EditorStyles.boldLabel);
+
+        EditorGUILayout.Slider("Asteroid Density:", 0, 0, 100);
+
+        EditorGUILayout.Foldout(foldList[CRATER_SETTINGS], "Add object");
+        EditorGUILayout.Foldout(foldList[CRATER_SETTINGS], "Mesh settings");
+        EditorGUILayout.Foldout(foldList[CRATER_SETTINGS], "Shader settings");
+        EditorGUILayout.Foldout(foldList[CRATER_SETTINGS], "Crater settings");
+
+        EditorGUI.EndDisabledGroup();
     }
 
     public void OnInspectorUpdate()
