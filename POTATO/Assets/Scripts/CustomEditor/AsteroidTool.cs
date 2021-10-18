@@ -13,7 +13,7 @@ public class AsteroidTool : EditorWindow
     AsteroidAttractor asteroidAttractor;
 
     // Bool that keeps track if the child window is folded out or in
-    bool isFolded = false;
+    List<bool> foldList;
 
     private List<GenerateStep> steps;
 
@@ -37,12 +37,15 @@ public class AsteroidTool : EditorWindow
         if (asteroid != null)
         {
             asteroidAttractor = asteroid.GetComponent<AsteroidAttractor>();
-        }else
+        }
+        else
         {
-                //TODO Find a better way to make it not null
+            //TODO Find a better way to make it not null
             asteroidAttractor = new AsteroidAttractor();
             asteroidData = new AsteroidData();
         }
+
+        foldList = new ArrayList<>();
     }
 
     //Update with method to refresh the selection of the user in the editor
@@ -64,18 +67,20 @@ public class AsteroidTool : EditorWindow
             asteroidData = asteroid.AddComponent<AsteroidData>();
 
             asteroidAttractor = asteroid.AddComponent<AsteroidAttractor>();
-            
+
             GameObject child = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             child.transform.parent = asteroid.transform;
         }
 
+        GUILayout.Label("Base Settings", EditorStyles.boldLabel);
+
         EditorGUI.BeginDisabledGroup(asteroid == null);
 
-        asteroidData!.asteroidDensity = EditorGUILayout.Slider("Asteroid Density:",asteroidData!.asteroidDensity, 0, 100);
+        asteroidData!.asteroidDensity = EditorGUILayout.Slider("Asteroid Density:", asteroidData!.asteroidDensity, 0, 100);
         asteroidData!.subDivideRecursions = EditorGUILayout.IntField("Subdivide Recursions:", asteroidData!.subDivideRecursions);
         asteroidData!.smoothRecursions = EditorGUILayout.IntField("Smoothing Recursions:", asteroidData!.smoothRecursions);
-        asteroidData!.indexFormat = (IndexFormat) EditorGUILayout.EnumPopup(asteroidData!.indexFormat);
-        
+        asteroidData!.indexFormat = (IndexFormat)EditorGUILayout.EnumPopup(asteroidData!.indexFormat);
+
         EditorGUI.EndDisabledGroup();
 
         // Fold menu for child menu
@@ -85,47 +90,44 @@ public class AsteroidTool : EditorWindow
         {
             if (GUILayout.Button("Add Cube"))
             {
-                CreateChildObject(GameObject.CreatePrimitive(PrimitiveType.Cube));
+                CreateChildObject(PrimitiveType.Cube);
             }
 
             if (GUILayout.Button("Add Sphere"))
             {
-                CreateChildObject(GameObject.CreatePrimitive(PrimitiveType.Sphere));
+                CreateChildObject(PrimitiveType.Sphere);
             }
 
             if (GUILayout.Button("Add Cylinder"))
             {
-                CreateChildObject(GameObject.CreatePrimitive(PrimitiveType.Cylinder));
+                CreateChildObject(PrimitiveType.Cylinder);
             }
             if (GUILayout.Button("Add Capsule"))
             {
-                CreateChildObject(GameObject.CreatePrimitive(PrimitiveType.Capsule));
+                CreateChildObject(PrimitiveType.Capsule);
             }
         }
+
 
         if (GUILayout.Button("Export"))
         {
             // Ask if the user is sure the want to generate the asteroid if the click the yes button then the asteroid can be generated
             if (!EditorUtility.DisplayDialog("Warning", "Generating the asteroid may take some time. Are you sure you want to proceed?", "Cancel", "Ok"))
             {
-                    foreach(GenerateStep step in steps)
-                    {
-                            step.Process(asteroid);
-                    }
+                foreach (GenerateStep step in steps)
+                {
+                    step.Process(asteroid);
+                }
             }
         }
-
-        //This starts fold out window for all the generation steps
-
     }
 
     // Method for creating a child object for the asteroid
-    private void CreateChildObject(GameObject obj)
+    private void CreateChildObject(PrimitiveType type)
     {
-
         if (asteroid != null)
         {
-            GameObject child = obj;
+            GameObject child = GameObject.CreatePrimitive(type);
 
             //Check if asteroid already has a child so the next child is placed properly 
             if (asteroid.transform.childCount > 0)
