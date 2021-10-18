@@ -33,6 +33,7 @@ public class AsteroidTool : EditorWindow
         steps = new List<GenerateStep>();
         steps.Add(new ShrinkWrapMeshGenerateStep());
         steps.Add(new SmoothMeshGenerateStep());
+        steps.Add(new DetailShaderGenerateStep());
 
         SetEditorSelectedObject();
 
@@ -139,7 +140,7 @@ public class AsteroidTool : EditorWindow
 
         if (foldList[SHADER_SETTINGS])
         {
-            //TODO shader input
+
         }
 
         // Fold menu for crater settings 
