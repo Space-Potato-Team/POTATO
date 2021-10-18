@@ -9,9 +9,8 @@ public class DetailGenerateStep : GenerateStep
     {
         AsteroidData data = gameObject.GetComponent<AsteroidData>();
 
-        Mesh mesh = AddCratersAmount(gameObject.GetComponent<MeshFilter>().sharedMesh, data!.CraterAmount, data!.CraterGrouping,
-            data!.maxCraterSize, data!.minCraterSize);
-        // AddCratersMultiplier(gameObject.GetComponent<MeshFilter>().sharedMesh, data!.CraterMultiplier, data!.CraterGrouping, data!.maxCraterSize, data!.minCraterSize);
+        Mesh mesh = AddCraters(gameObject.GetComponent<MeshFilter>().sharedMesh, data!.CraterAmount, data!.CraterGrouping,
+            data!.maxCraterSize, data!.minCraterSize, data!.CraterDepth);
         gameObject.GetComponent<MeshFilter>()!.mesh = mesh;
         gameObject.GetComponent<MeshCollider>()!.sharedMesh = mesh;
         
@@ -23,7 +22,7 @@ public class DetailGenerateStep : GenerateStep
         
     }
 
-    private Mesh AddCratersAmount(Mesh mesh, int amount, float grouping, float maxCraterSize, float minCraterSize)
+    private Mesh AddCraters(Mesh mesh, int amount, float grouping, float maxCraterSize, float minCraterSize, float craterDepth)
     {
         
         List<Vector3> craterPoints = new List<Vector3>();
@@ -39,7 +38,7 @@ public class DetailGenerateStep : GenerateStep
         }
         for(int i = 0; i< craterNormals.Count; i++)
         {
-            CraterCreator.addCraterToMeshOnPosition(mesh, craterPoints[i], -craterNormals[i], Random.Range(minCraterSize, maxCraterSize));
+            CraterCreator.addCraterToMeshOnPosition(mesh, craterPoints[i], -craterNormals[i], Random.Range(minCraterSize, maxCraterSize), craterDepth);
         }
         
         mesh.RecalculateBounds();
@@ -49,7 +48,7 @@ public class DetailGenerateStep : GenerateStep
     }
     
     
-    private Mesh AddCratersMultiplier(Mesh mesh, float multiplier, float grouping, float maxCraterSize, float minCraterSize)
+    private Mesh AddCraters(Mesh mesh, float multiplier, float grouping, float maxCraterSize, float minCraterSize, float craterDepth)
     {
         List<Vector3> craterPoints = new List<Vector3>();
         List<Vector3> craterNormals = new List<Vector3>();
@@ -65,7 +64,7 @@ public class DetailGenerateStep : GenerateStep
         }
         for(int i = 0; i< craterNormals.Count; i++)
         {
-            CraterCreator.addCraterToMeshOnPosition(mesh, craterPoints[i], -craterNormals[i], Random.Range(minCraterSize, maxCraterSize));
+            CraterCreator.addCraterToMeshOnPosition(mesh, craterPoints[i], -craterNormals[i], Random.Range(minCraterSize, maxCraterSize), craterDepth);
         }
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();

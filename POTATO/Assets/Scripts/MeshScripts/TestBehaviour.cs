@@ -9,6 +9,12 @@ public class TestBehaviour : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private Mesh _mesh;
     [SerializeField] private Transform craterPoint;
+
+    private void Start()
+    {
+        GetComponent<Rigidbody>().AddTorque(new Vector3(0.7f, 0.5f, 0.4f));
+    }
+
     public void Test()
     {
         ShrinkWrapMeshGenerateStep step = new ShrinkWrapMeshGenerateStep();

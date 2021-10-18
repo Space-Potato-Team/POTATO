@@ -15,4 +15,5 @@ public class AsteroidData : MonoBehaviour
     public float maxCraterSize;
     public float minCraterSize;
     public int CraterAmount;
+    public float CraterDepth;
 }

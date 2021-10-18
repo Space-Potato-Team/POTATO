@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CraterCreator
 {
-    public static Mesh addCraterToMeshOnPosition(Mesh mesh, Vector3 position, Vector3 direction, float craterSize)
+    public static Mesh addCraterToMeshOnPosition(Mesh mesh, Vector3 position, Vector3 direction, float craterSize, float craterDepth)
     {
         //Get all the vertices of the Component in an array
         List<Vector3> vertices = mesh.vertices.ToList();
@@ -20,7 +20,7 @@ public class CraterCreator
             if (distance <= craterSize)
             {
                 //Calculate the offset the vertex needs to be moved with.
-                float temp = impact * Mathf.Pow((craterSize - distance) / craterSize, 0.5f);
+                float temp = impact * Mathf.Pow(craterDepth * ((craterSize - distance) / craterSize), 0.5f);
 
                 //Changes the position of the copied vertices using the direction of the crater, vertex offset and the cratersize.
                 vertices[i] = (vertices[i] + direction * temp * craterSize);
