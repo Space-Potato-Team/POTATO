@@ -112,13 +112,9 @@ public class AsteroidTool : EditorWindow
             if (foldList[MESH_SETTINGS])
             {
 
-                EditorGUI.BeginDisabledGroup(asteroid == null);
-
                 asteroidData!.subDivideRecursions = EditorGUILayout.IntField("Subdivide Recursions:", asteroidData!.subDivideRecursions);
                 asteroidData!.smoothRecursions = EditorGUILayout.IntField("Smoothing Recursions:", asteroidData!.smoothRecursions);
                 asteroidData!.indexFormat = (IndexFormat)EditorGUILayout.EnumPopup(asteroidData!.indexFormat);
-
-                EditorGUI.EndDisabledGroup();
 
                 if (GUILayout.Button("Export"))
                 {
@@ -192,6 +188,12 @@ public class AsteroidTool : EditorWindow
             if (selectedObject.name == "Asteroid")
             {
                 asteroid = selectedObject;
+                asteroidData = asteroid.GetComponent<AsteroidData>();
+                asteroidAttractor = asteroid.GetComponent<AsteroidAttractor>();
+            }
+            else if (selectedObject.transform.parent.name == "Asteroid")
+            {
+                asteroid = selectedObject.transform.parent.gameObject;
                 asteroidData = asteroid.GetComponent<AsteroidData>();
                 asteroidAttractor = asteroid.GetComponent<AsteroidAttractor>();
             }
