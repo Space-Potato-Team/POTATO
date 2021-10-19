@@ -24,7 +24,7 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: ff45163658de2744bbd636f51d89052a, type: 3}
   m_ShaderKeywords: _DISABLE_SSR_TRANSPARENT
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2225
   stringTagMap:
@@ -51,12 +51,16 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_10c5ca3765894cbbbdf7dc63c434f4d5: 0.05
-    - Vector1_3edc5965f090436f9da248a70d9a1dce: 152.5
-    - Vector1_74b305bef3ac4fa682af69d12d3d362e: 2.2
+    - Vector1_10c5ca3765894cbbbdf7dc63c434f4d5: 0.15
+    - Vector1_3edc5965f090436f9da248a70d9a1dce: 100
+    - Vector1_490031e3e702454caae828de2bc2d5da: 0.8
+    - Vector1_74b305bef3ac4fa682af69d12d3d362e: 32.7
+    - Vector1_8eb1055e31c94f00a33b1695de070e17: 0.45
     - Vector1_951427c315fb4e35bd41577d5237d316: 0.5
     - Vector1_a435b1b012114393a2c058c98c74b77b: 1
     - Vector1_b1d88161dd664f0794aa4264d7e887a7: 15
+    - Vector1_c0caf3960fed478d92c90d1e268e419e: 25.1
+    - Vector1_c1e3f5172a4d49eaac8a59dc0f48a6aa: 0.45
     - _AddPrecomputedVelocity: 0
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 0
