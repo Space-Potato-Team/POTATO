@@ -33,8 +33,8 @@ public class AsteroidTool : EditorWindow
         steps = new List<GenerateStep>();
         steps.Add(new ShrinkWrapMeshGenerateStep());
         steps.Add(new SmoothMeshGenerateStep());
-        steps.Add(new DetailGenerateStep());
         steps.Add(new DetailShaderGenerateStep());
+        steps.Add(new DetailGenerateStep());
 
         SetEditorSelectedObject();
 
@@ -122,10 +122,9 @@ public class AsteroidTool : EditorWindow
                     // Ask if the user is sure the want to generate the asteroid if the click the yes button then the asteroid can be generated
                     if (!EditorUtility.DisplayDialog("Warning", "Generating the asteroid may take some time. Are you sure you want to proceed?", "Cancel", "Ok"))
                     {
-                        foreach (GenerateStep step in steps)
-                        {
-                            step.Process(asteroid);
-                        }
+                                steps[0].Process(asteroid);
+                                steps[1].Process(asteroid);
+                                steps[2].Process(asteroid);
                     }
                 }
             }
@@ -141,6 +140,11 @@ public class AsteroidTool : EditorWindow
                 asteroidData!.CraterDepth = EditorGUILayout.FloatField("Depth of crater", asteroidData!.CraterDepth);
                 asteroidData!.minForceRequired = EditorGUILayout.FloatField("Min force required", asteroidData!.minForceRequired);
                 asteroidData!.addColisions = EditorGUILayout.Toggle("Add collisions", asteroidData!.addColisions);
+
+                if(GUILayout.Button("Create craters"))
+                {
+                    steps[3].Process(asteroid);
+                }
             }
         }
         else
