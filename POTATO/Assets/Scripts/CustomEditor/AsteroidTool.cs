@@ -106,6 +106,7 @@ public class AsteroidTool : EditorWindow
         asteroidAttractor = asteroid.AddComponent<AsteroidAttractor>();
 
         GameObject child = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        child.transform.localScale = new Vector3(100,100,100);
         child.transform.parent = asteroid.transform;
     }
 
@@ -176,15 +177,17 @@ public class AsteroidTool : EditorWindow
         {
             GameObject child = GameObject.CreatePrimitive(type);
 
+            child.transform.localScale = new Vector3(100,100,100);
+
             //Check if asteroid already has a child so the next child is placed properly 
             if (asteroid.transform.childCount > 0)
             {
                 Transform lastChild = asteroid.transform.GetChild(asteroid.transform.childCount - 1);
-                child.transform.position = lastChild.position + Vector3.back;
+                child.transform.position = lastChild.position + Vector3.back * 100;
             }
             else
             {
-                child.transform.position = asteroid.transform.position + Vector3.back;
+                child.transform.position = asteroid.transform.position;
             }
 
             child.transform.parent = asteroid.transform;
