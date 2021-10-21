@@ -61,7 +61,7 @@ public class AsteroidAttractor : MonoBehaviour
         
         //set gravity to false for script to work
         rb.useGravity = false;
-        
+
         //add current script to array with all AsteroidAttractor scripts
         gravityScript.attractors.Add(this);
     }

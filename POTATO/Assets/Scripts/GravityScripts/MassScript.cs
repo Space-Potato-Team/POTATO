@@ -33,7 +33,6 @@ public class MassScript
             localVolume += SignedVolumeOfTriangle(p1, p2, p3);
         }
         localVolume *= gameObject.transform.localScale.x * gameObject.transform.localScale.y * gameObject.transform.localScale.z;
-        Debug.Log(Mathf.Abs(localVolume));
         return Mathf.Abs(localVolume);
     }
 
