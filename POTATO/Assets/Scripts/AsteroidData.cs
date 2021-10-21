@@ -19,4 +19,5 @@ public class AsteroidData : MonoBehaviour
     public float CraterDepth;
     public float minForceRequired;
     public bool addColisions;
+    public float impactForceMultiplier;
 }
