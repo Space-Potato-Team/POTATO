@@ -14,17 +14,20 @@ public class DetailGenerateStep : GenerateStep
         gameObject.GetComponent<MeshFilter>()!.mesh = mesh;
         gameObject.GetComponent<MeshCollider>()!.sharedMesh = mesh;
 
-        if (data.addColisions)
+        if (data.addColisions && gameObject.GetComponent<CollisionCraters>() == null)
         {
             gameObject.AddComponent<CollisionCraters>();
         }
 
-        if (data.addGravity)
+        if (data.addGravity && gameObject.GetComponent<AsteroidAttractor>() == null)
         {
             var asteroidAttractor = gameObject.AddComponent<AsteroidAttractor>();
             asteroidAttractor.density = data.asteroidDensity;
         }
 
+        Rigidbody rb = gameObject.GetComponent<Rigidbody>();
+        rb!.isKinematic = true;
+        rb!.useGravity = false;
         return gameObject;
     }
 
