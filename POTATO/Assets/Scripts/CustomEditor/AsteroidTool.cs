@@ -148,7 +148,7 @@ public class AsteroidTool : EditorWindow
         {
             CreateChildObject(PrimitiveType.Capsule);
         }
-        ShowDocumentation("These buttons add primitive gameobjects to the main asteroid object. [cube, sphere, cylinder, capsule] \nThese primitive objects are the basis of the asteroid shape when creating it.");
+        ShowDocumentation("These buttons add primitive game objects to the main asteroid object. [cube, sphere, cylinder, capsule] \nThese primitive objects are the basis of the asteroid shape when creating it.");
     }
 
     //Method for creating a child object for the asteroid and sets it back on z axis
@@ -188,7 +188,7 @@ public class AsteroidTool : EditorWindow
             "Every recursion multiplies the amount of polygons by four, adding more detail. " +
             "Warning: Higher recursion levels will also impact the time needed for generation significantly, " +
             "values above five recursion may take exponentially more time. " +
-            "[3-5 Recursions recommended] [1 recursion only works with specific settings]");
+            "\n[3-5 Recursions recommended] [1 recursion only works with specific settings]");
 
         asteroidData!.smoothRecursions = EditorGUILayout.IntSlider("Smoothing Recursions", asteroidData!.smoothRecursions, 1, 200);
         ShowDocumentation("The smoothing recursion controls the roundness of the asteroid. " +
@@ -196,13 +196,14 @@ public class AsteroidTool : EditorWindow
             "The leftover shapes will have a realistic asteroid volume. " +
             "Warning: The mesh will become smaller with every recursion, " +
             "high values can shrink the asteroid until it is gone. " +
-            "[25-50 recursions recommended]");
+            "\n[25-50 recursions recommended]");
 
         asteroidData!.indexFormat = (IndexFormat)EditorGUILayout.EnumPopup(asteroidData!.indexFormat);
-        ShowDocumentation("Sets the level of detail on the mesh");
+        ShowDocumentation("Sets the level of detail on the mesh"
+                        +"\n[U Int 32 recommended]");
 
         //If the button is pressed create the mesh and smoothing an add the shaders and texture
-        if (GUILayout.Button("Export"))
+        if (GUILayout.Button("Generate Mesh"))
         {
             // Ask if the user is sure the want to generate the asteroid if the click the yes button then the asteroid can be generated
             if (!EditorUtility.DisplayDialog("Warning", "Generating the asteroid may take some time. Are you sure you want to proceed?", "Cancel", "Ok"))
@@ -219,22 +220,22 @@ public class AsteroidTool : EditorWindow
     {
         asteroidData!.asteroidDensity = EditorGUILayout.Slider("Asteroid Density", asteroidData!.asteroidDensity, 0, 100);
         ShowDocumentation("The density is used to calculate the mass and the gravity pull strength indirectly. " +
-            "The higher the value, the higher the gravitational pull. [0.01 - 1 recommended]");
+            "The higher the value, the higher the gravitational pull. \n[0.01 - 1 recommended]");
 
         asteroidData!.maxCraterSize = EditorGUILayout.Slider("Max crater size", asteroidData!.maxCraterSize, 1, 10);
         ShowDocumentation("The maximum crater size is used as maximum value for the width of crater generation. " +
-            "The size is measured on local scale. [1 - 10 recommended]");
+            "The size is measured on local scale. \n[1 - 10 recommended]");
 
         asteroidData!.minCraterSize = EditorGUILayout.Slider("Min crater size", asteroidData!.minCraterSize, 0.1f, 1);
         ShowDocumentation("The minimum crater size is used as minimum value for the width of crater generation. " +
-            "The size is measured on local scale. [0.1 - 1 recommended]");
+            "The size is measured on local scale. \n[0.1 - 1 recommended]");
 
         asteroidData!.CraterDepth = EditorGUILayout.Slider("Depth of crater", asteroidData!.CraterDepth, 0.1f, 10);
         ShowDocumentation("The depth of the crater is a value that sets how deep a crater is created. " +
-            "This is based on the size of the original crater's width. [0.2 - 0.7 recommended]");
+            "This is based on the size of the original crater's width. \n[0.2 - 0.7 recommended]");
 
         asteroidData!.CraterAmount = EditorGUILayout.IntField("Amount of craters", asteroidData!.CraterAmount);
-        ShowDocumentation("The amount of craters is a value that sets the amount of craters to the tool will generate. [100 - 150 recommended]");
+        ShowDocumentation("The amount of craters is a value that sets the amount of craters to the tool will generate. \n[100 - 150 recommended]");
 
         asteroidData!.addColisions = EditorGUILayout.BeginToggleGroup("Add collisions", asteroidData!.addColisions);
         ShowDocumentation("The collision checkbox is checked if the asteroid should interact with comets. " +
@@ -243,7 +244,7 @@ public class AsteroidTool : EditorWindow
         asteroidData!.minForceRequired = EditorGUILayout.Slider("Min force required", asteroidData!.minForceRequired, 0.1f, 10);
         ShowDocumentation("The minimal force required is a value that is used as baseline to create new craters by collisions. " +
             "This is calculated by overcoming the magnitude of impact, which is 'velocity * mass'. " +
-            "[1 - 5 is recommended (This should be set at your own discretion)]");
+            "\n[1 - 5 is recommended (This should be set at your own discretion)]");
 
         asteroidData!.impactForceMultiplier = EditorGUILayout.Slider("Force Multiplier", asteroidData!.impactForceMultiplier, 0.1f, 10);
         ShowDocumentation("The amount with which the force is multiplied to create a bigger impact force with an object");
