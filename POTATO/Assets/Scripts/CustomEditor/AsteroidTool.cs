@@ -134,8 +134,8 @@ public class AsteroidTool : EditorWindow
 
     private void MeshSettings()
     {
-        asteroidData!.subDivideRecursions = EditorGUILayout.IntSlider("Subdivide Recursions:", asteroidData!.subDivideRecursions, 1, 6);
-        asteroidData!.smoothRecursions = EditorGUILayout.IntField("Smoothing Recursions:", asteroidData!.smoothRecursions);
+        asteroidData!.subDivideRecursions = EditorGUILayout.IntSlider("Subdivide Recursions", asteroidData!.subDivideRecursions, 1, 6);
+        asteroidData!.smoothRecursions = EditorGUILayout.IntSlider("Smoothing Recursions", asteroidData!.smoothRecursions, 1, 200);
         asteroidData!.indexFormat = (IndexFormat)EditorGUILayout.EnumPopup(asteroidData!.indexFormat);
 
         if (GUILayout.Button("Export"))
@@ -153,15 +153,16 @@ public class AsteroidTool : EditorWindow
 
     private void CraterSettings()
     {
-        asteroidData!.asteroidDensity = EditorGUILayout.Slider("Asteroid Density:", asteroidData!.asteroidDensity, 0, 100);
+        asteroidData!.asteroidDensity = EditorGUILayout.Slider("Asteroid Density", asteroidData!.asteroidDensity, 0, 100);
 
-        asteroidData!.maxCraterSize = EditorGUILayout.FloatField("Max crater size", asteroidData!.maxCraterSize);
-        asteroidData!.minCraterSize = EditorGUILayout.FloatField("Min crater size", asteroidData!.minCraterSize);
+        asteroidData!.maxCraterSize = EditorGUILayout.Slider("Max crater size", asteroidData!.maxCraterSize, 1, 10);
+        asteroidData!.minCraterSize = EditorGUILayout.Slider("Min crater size", asteroidData!.minCraterSize, 0.1f, 1);
         asteroidData!.CraterAmount = EditorGUILayout.IntField("Amount of craters", asteroidData!.CraterAmount);
-        asteroidData!.CraterDepth = EditorGUILayout.FloatField("Depth of crater", asteroidData!.CraterDepth);
+        asteroidData!.CraterDepth = EditorGUILayout.Slider("Depth of crater", asteroidData!.CraterDepth, 0.1f, 10);
 
         asteroidData!.addColisions = EditorGUILayout.BeginToggleGroup("Add collisions", asteroidData!.addColisions);
-        asteroidData!.minForceRequired = EditorGUILayout.FloatField("Min force required", asteroidData!.minForceRequired);
+        asteroidData!.minForceRequired = EditorGUILayout.Slider("Min force required", asteroidData!.minForceRequired, 0.1f, 10);
+        asteroidData!.impactForceMultiplier = EditorGUILayout.Slider("Force Multiplier", asteroidData!.impactForceMultiplier, 0.1f, 10);
         EditorGUILayout.EndToggleGroup();
 
         if (GUILayout.Button("Create craters"))
