@@ -33,6 +33,8 @@ public class CollisionCraters : MonoBehaviour
         {
             var craterSize = Mathf.Max(Mathf.Min(asteroidData.maxCraterSize, impactVector.magnitude), asteroidData.minCraterSize) * asteroidData.impactForceMultiplier;
 
+            Debug.Log(craterSize);
+
             CraterCreator.addCraterToMeshOnPosition(mesh, transform.InverseTransformPoint(collision.rigidbody.position), impactVector.normalized, craterSize, asteroidData.CraterDepth);
 
             //Recalculate the position of the changed vertices
