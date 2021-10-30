@@ -3,20 +3,31 @@ using UnityEngine.Rendering;
 
 public class AsteroidData : MonoBehaviour
 {
-    public int subDivideRecursions = 5;
+    [Range(1, 6)]
+    public int subDivideRecursions = 5;    
+
+    [Range(1, 200)]
     public int smoothRecursions = 100;
     public IndexFormat indexFormat = IndexFormat.UInt32;
+    public float ShrinkDiameter;
     
+    [Range(1, 100)]
     public float asteroidDensity = 1.3f;
     public bool addGravity = true;
     
     //Crater fields
-    public float CraterGrouping;
+    public float CraterGrouping = 0.6f;
+    public float CraterMultiplier;
+    [Range(1, 10)]
     public float maxCraterSize = 10;
+    [Range(0.1f, 1)]
     public float minCraterSize = 1;
-    public int CraterAmount = 150;
+    public int CraterAmount = 100;
+    [Range(0.1f, 10)]
     public float CraterDepth = 0.25f;
+    [Range(0.1f, 10)]
     public float minForceRequired = 100;
     public bool addColisions = true;
-    public float impactForceMultiplier = 0.5f;
+    [Range(0.1f, 10)]
+    public float impactForceMultiplier = 1f;
 }
