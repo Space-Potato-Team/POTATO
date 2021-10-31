@@ -18,9 +18,9 @@ public class AsteroidData : MonoBehaviour
     //Crater fields
     public float CraterGrouping = 0.6f;
     public float CraterMultiplier;
-    [Range(1, 10)]
+    [Range(1, 20)]
     public float maxCraterSize = 10;
-    [Range(0.1f, 1)]
+    [Range(0.1f, 5)]
     public float minCraterSize = 1;
     public int CraterAmount = 100;
     [Range(0.1f, 10)]

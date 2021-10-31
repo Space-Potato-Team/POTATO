@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AdditionalScriptsGenerateStep : GenerateStep
+public class PhysicsGenerateStep : GenerateStep
 {
     public override GameObject Process(GameObject gameObject)
     {

@@ -6,7 +6,7 @@ using UnityEngine.Rendering;
 
 public class AsteroidTool : EditorWindow
 {
-    private int NR_FOLD = 4, CHILD_OBJECT = 0, MESH_SETTINGS = 1, CRATER_SETTINGS = 2, ADDITIONAL_SETTINGS = 3;
+    private int NR_FOLD = 4, CHILD_OBJECT = 0, MESH_SETTINGS = 1, CRATER_SETTINGS = 2, PHYSICS_SETTINGS = 3;
 
     //The asteroid object used in the unity editor
     GameObject asteroid;
@@ -39,7 +39,7 @@ public class AsteroidTool : EditorWindow
         steps.Add(new SmoothMeshGenerateStep());
         steps.Add(new DetailShaderGenerateStep());
         steps.Add(new DetailGenerateStep());
-        steps.Add(new AdditionalScriptsGenerateStep());
+        steps.Add(new PhysicsGenerateStep());
         
         SetEditorSelectedObject();
 
@@ -101,11 +101,11 @@ public class AsteroidTool : EditorWindow
             }
             
             //Fold menu for crater settings 
-            foldList[ADDITIONAL_SETTINGS] = EditorGUILayout.Foldout(foldList[ADDITIONAL_SETTINGS], "Additional settings");
+            foldList[PHYSICS_SETTINGS] = EditorGUILayout.Foldout(foldList[PHYSICS_SETTINGS], "Physics settings");
 
-            if (foldList[ADDITIONAL_SETTINGS])
+            if (foldList[PHYSICS_SETTINGS])
             {
-                AdditionalSettings();
+                PhysicsSettings();
             }
         }
         else
@@ -222,13 +222,13 @@ public class AsteroidTool : EditorWindow
     //GUI method that shows all the crater settings in the crater fold menu
     private void CraterSettings()
     {
-        asteroidData!.maxCraterSize = EditorGUILayout.Slider("Max crater size", asteroidData!.maxCraterSize, 1, 10);
+        asteroidData!.maxCraterSize = EditorGUILayout.Slider("Max crater size", asteroidData!.maxCraterSize, 1, 20);
         ShowDocumentation("The maximum crater size is used as maximum value for the width of crater generation. " +
-            "The size is measured on local scale. \n[1 - 10 recommended]");
+            "The size is measured on local scale. \n[1 - 20 recommended]");
 
-        asteroidData!.minCraterSize = EditorGUILayout.Slider("Min crater size", asteroidData!.minCraterSize, 0.1f, 1);
+        asteroidData!.minCraterSize = EditorGUILayout.Slider("Min crater size", asteroidData!.minCraterSize, 0.1f, 5);
         ShowDocumentation("The minimum crater size is used as minimum value for the width of crater generation. " +
-            "The size is measured on local scale. \n[0.1 - 1 recommended]");
+            "The size is measured on local scale. \n[0.1 - 5 recommended]");
 
         asteroidData!.CraterDepth = EditorGUILayout.Slider("Depth of crater", asteroidData!.CraterDepth, 0.1f, 10);
         ShowDocumentation("The depth of the crater is a value that sets how deep a crater is created. " +
@@ -245,7 +245,7 @@ public class AsteroidTool : EditorWindow
         }
     }
 
-    private void AdditionalSettings()
+    private void PhysicsSettings()
     {
         asteroidData!.addGravity = EditorGUILayout.BeginToggleGroup("Add gravity", asteroidData!.addGravity);
         ShowDocumentation("The collision checkbox is checked if the asteroid should attract other objects.");
@@ -270,7 +270,7 @@ public class AsteroidTool : EditorWindow
 
         EditorGUILayout.EndToggleGroup();
         
-        if (GUILayout.Button("Add scripts"))
+        if (GUILayout.Button("Add physics"))
         {
             steps[4].Process(asteroid);
         }
@@ -281,10 +281,10 @@ public class AsteroidTool : EditorWindow
     {
         EditorGUI.BeginDisabledGroup(asteroidData == null);
 
-        EditorGUILayout.Foldout(foldList[ADDITIONAL_SETTINGS], "Add object");
-        EditorGUILayout.Foldout(foldList[ADDITIONAL_SETTINGS], "Mesh settings");
-        EditorGUILayout.Foldout(foldList[ADDITIONAL_SETTINGS], "Crater settings");
-        EditorGUILayout.Foldout(foldList[ADDITIONAL_SETTINGS], "Additional settings");
+        EditorGUILayout.Foldout(foldList[PHYSICS_SETTINGS], "Add object");
+        EditorGUILayout.Foldout(foldList[PHYSICS_SETTINGS], "Mesh settings");
+        EditorGUILayout.Foldout(foldList[PHYSICS_SETTINGS], "Crater settings");
+        EditorGUILayout.Foldout(foldList[PHYSICS_SETTINGS], "Additional settings");
 
         EditorGUI.EndDisabledGroup();
 
