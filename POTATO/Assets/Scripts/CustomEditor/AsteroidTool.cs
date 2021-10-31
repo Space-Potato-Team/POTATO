@@ -6,16 +6,13 @@ using UnityEngine.Rendering;
 
 public class AsteroidTool : EditorWindow
 {
-    private int NR_FOLD = 3, CHILD_OBJECT = 0, MESH_SETTINGS = 1, CRATER_SETTINGS = 2;
+    private int NR_FOLD = 4, CHILD_OBJECT = 0, MESH_SETTINGS = 1, CRATER_SETTINGS = 2, PHYSICS_SETTINGS = 3;
 
     //The asteroid object used in the unity editor
     GameObject asteroid;
 
     //All the information about the asteroid and where we store the data
     AsteroidData asteroidData;
-
-    //Script that gives the asteroid its gravity
-    AsteroidAttractor asteroidAttractor;
 
     //Boolean list that keeps track if the child window is folded out or in
     bool[] foldList;
@@ -42,13 +39,13 @@ public class AsteroidTool : EditorWindow
         steps.Add(new SmoothMeshGenerateStep());
         steps.Add(new DetailShaderGenerateStep());
         steps.Add(new DetailGenerateStep());
-
+        steps.Add(new PhysicsGenerateStep());
+        
         SetEditorSelectedObject();
 
         //If there already exists an asteroid object get the needed script from the game object
         if (asteroid != null)
         {
-            asteroidAttractor = asteroid.GetComponent<AsteroidAttractor>();
             asteroidData = asteroid.GetComponent<AsteroidData>();
         }
 
@@ -102,6 +99,14 @@ public class AsteroidTool : EditorWindow
             {
                 CraterSettings();
             }
+            
+            //Fold menu for crater settings 
+            foldList[PHYSICS_SETTINGS] = EditorGUILayout.Foldout(foldList[PHYSICS_SETTINGS], "Physics settings");
+
+            if (foldList[PHYSICS_SETTINGS])
+            {
+                PhysicsSettings();
+            }
         }
         else
         {
@@ -119,7 +124,6 @@ public class AsteroidTool : EditorWindow
         asteroid.AddComponent<MeshRenderer>();
         asteroid.AddComponent<MeshCollider>();
         asteroidData = asteroid.AddComponent<AsteroidData>();
-        asteroidAttractor = asteroid.AddComponent<AsteroidAttractor>();
 
         //Create child object and set the asteroid as its parent
         GameObject child = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -218,17 +222,13 @@ public class AsteroidTool : EditorWindow
     //GUI method that shows all the crater settings in the crater fold menu
     private void CraterSettings()
     {
-        asteroidData!.asteroidDensity = EditorGUILayout.Slider("Asteroid Density", asteroidData!.asteroidDensity, 0, 100);
-        ShowDocumentation("The density is used to calculate the mass and the gravity pull strength indirectly. " +
-            "The higher the value, the higher the gravitational pull. \n[0.01 - 1 recommended]");
-
-        asteroidData!.maxCraterSize = EditorGUILayout.Slider("Max crater size", asteroidData!.maxCraterSize, 1, 10);
+        asteroidData!.maxCraterSize = EditorGUILayout.Slider("Max crater size", asteroidData!.maxCraterSize, 1, 20);
         ShowDocumentation("The maximum crater size is used as maximum value for the width of crater generation. " +
-            "The size is measured on local scale. \n[1 - 10 recommended]");
+            "The size is measured on local scale. \n[1 - 20 recommended]");
 
-        asteroidData!.minCraterSize = EditorGUILayout.Slider("Min crater size", asteroidData!.minCraterSize, 0.1f, 1);
+        asteroidData!.minCraterSize = EditorGUILayout.Slider("Min crater size", asteroidData!.minCraterSize, 0.1f, 5);
         ShowDocumentation("The minimum crater size is used as minimum value for the width of crater generation. " +
-            "The size is measured on local scale. \n[0.1 - 1 recommended]");
+            "The size is measured on local scale. \n[0.1 - 5 recommended]");
 
         asteroidData!.CraterDepth = EditorGUILayout.Slider("Depth of crater", asteroidData!.CraterDepth, 0.1f, 10);
         ShowDocumentation("The depth of the crater is a value that sets how deep a crater is created. " +
@@ -236,24 +236,43 @@ public class AsteroidTool : EditorWindow
 
         asteroidData!.CraterAmount = EditorGUILayout.IntField("Amount of craters", asteroidData!.CraterAmount);
         ShowDocumentation("The amount of craters is a value that sets the amount of craters to the tool will generate. \n[100 - 150 recommended]");
+        
+        // EditorGUILayout.EndToggleGroup();
+
+        if (GUILayout.Button("Create craters"))
+        {
+            steps[3].Process(asteroid);
+        }
+    }
+
+    private void PhysicsSettings()
+    {
+        asteroidData!.addGravity = EditorGUILayout.BeginToggleGroup("Add gravity", asteroidData!.addGravity);
+        ShowDocumentation("The collision checkbox is checked if the asteroid should attract other objects.");
+
+        asteroidData!.asteroidDensity = EditorGUILayout.Slider("Asteroid Density", asteroidData!.asteroidDensity, 0, 100);
+        ShowDocumentation("The density is used to calculate the mass and the gravity pull strength indirectly. " +
+                          "The higher the value, the higher the gravitational pull. \n[0.01 - 1 recommended]");
+        
+        EditorGUILayout.EndToggleGroup();
 
         asteroidData!.addColisions = EditorGUILayout.BeginToggleGroup("Add collisions", asteroidData!.addColisions);
         ShowDocumentation("The collision checkbox is checked if the asteroid should interact with comets. " +
-            "Interaction with comets will leave new craters on the asteroid.");
-
+                          "Interaction with comets will leave new craters on the asteroid.");
+        
         asteroidData!.minForceRequired = EditorGUILayout.Slider("Min force required", asteroidData!.minForceRequired, 0.1f, 10);
         ShowDocumentation("The minimal force required is a value that is used as baseline to create new craters by collisions. " +
-            "This is calculated by overcoming the magnitude of impact, which is 'velocity * mass'. " +
-            "\n[1 - 5 is recommended (This should be set at your own discretion)]");
+                          "This is calculated by overcoming the magnitude of impact, which is 'velocity * mass'. " +
+                          "\n[1 - 5 is recommended (This should be set at your own discretion)]");
 
         asteroidData!.impactForceMultiplier = EditorGUILayout.Slider("Force Multiplier", asteroidData!.impactForceMultiplier, 0.1f, 10);
         ShowDocumentation("The amount with which the force is multiplied to create a bigger impact force with an object");
 
         EditorGUILayout.EndToggleGroup();
-
-        if (GUILayout.Button("Create craters"))
+        
+        if (GUILayout.Button("Add physics"))
         {
-            steps[3].Process(asteroid);
+            steps[4].Process(asteroid);
         }
     }
 
@@ -262,9 +281,10 @@ public class AsteroidTool : EditorWindow
     {
         EditorGUI.BeginDisabledGroup(asteroidData == null);
 
-        EditorGUILayout.Foldout(foldList[CRATER_SETTINGS], "Add object");
-        EditorGUILayout.Foldout(foldList[CRATER_SETTINGS], "Mesh settings");
-        EditorGUILayout.Foldout(foldList[CRATER_SETTINGS], "Crater settings");
+        EditorGUILayout.Foldout(foldList[PHYSICS_SETTINGS], "Add object");
+        EditorGUILayout.Foldout(foldList[PHYSICS_SETTINGS], "Mesh settings");
+        EditorGUILayout.Foldout(foldList[PHYSICS_SETTINGS], "Crater settings");
+        EditorGUILayout.Foldout(foldList[PHYSICS_SETTINGS], "Additional settings");
 
         EditorGUI.EndDisabledGroup();
 
@@ -285,7 +305,6 @@ public class AsteroidTool : EditorWindow
             {
                 asteroid = selectedObject;
                 asteroidData = asteroid.GetComponent<AsteroidData>();
-                asteroidAttractor = asteroid.GetComponent<AsteroidAttractor>();
             }
             //Check if the selected game object has a parent
             else if (selectedObject.transform.parent != null)
@@ -295,7 +314,6 @@ public class AsteroidTool : EditorWindow
                 {
                     asteroid = selectedObject.transform.parent.gameObject;
                     asteroidData = asteroid.GetComponent<AsteroidData>();
-                    asteroidAttractor = asteroid.GetComponent<AsteroidAttractor>();
                 }
             }
         }
