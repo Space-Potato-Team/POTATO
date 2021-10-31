@@ -13,21 +13,7 @@ public class DetailGenerateStep : GenerateStep
             data!.maxCraterSize, data!.minCraterSize, data!.CraterDepth);
         gameObject.GetComponent<MeshFilter>()!.mesh = mesh;
         gameObject.GetComponent<MeshCollider>()!.sharedMesh = mesh;
-
-        if (data.addColisions && gameObject.GetComponent<CollisionCraters>() == null)
-        {
-            gameObject.AddComponent<CollisionCraters>();
-        }
-
-        if (data.addGravity && gameObject.GetComponent<AsteroidAttractor>() == null)
-        {
-            var asteroidAttractor = gameObject.AddComponent<AsteroidAttractor>();
-            asteroidAttractor.density = data.asteroidDensity;
-        }
-
-        Rigidbody rb = gameObject.GetComponent<Rigidbody>();
-        rb!.isKinematic = true;
-        rb!.useGravity = false;
+        
         return gameObject;
     }
 
