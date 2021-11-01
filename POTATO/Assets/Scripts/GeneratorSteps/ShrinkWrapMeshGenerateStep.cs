@@ -20,7 +20,6 @@ public class ShrinkWrapMeshGenerateStep : GenerateStep
         //Create ico-sphere mesh used for shrinking.
         Mesh mesh = GetIcoSphereMesh(gameObject.GetComponent<AsteroidData>()!.subDivideRecursions, gameObject.GetComponent<AsteroidData>()!.indexFormat);
         mesh.name = meshName;
-
         //Calculate the distance to the furthest collider of the children objects.
         float range = CalculateAsteroidRange(gameObject.transform);
         //Add a game object with the ico-sphere mesh and the range.

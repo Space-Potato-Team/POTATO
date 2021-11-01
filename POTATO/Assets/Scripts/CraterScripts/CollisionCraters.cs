@@ -26,14 +26,12 @@ public class CollisionCraters : MonoBehaviour
     {
         Vector3 impactVector = collision.relativeVelocity * collision.rigidbody.mass;
 
-        Debug.Log(impactVector);
 
         //Check if the relativeVelocity * Mass produces enough force to crater the asteroid
         if (impactVector.magnitude >= asteroidData.minForceRequired)
         {
             var craterSize = Mathf.Max(Mathf.Min(asteroidData.maxCraterSize, impactVector.magnitude), asteroidData.minCraterSize) * asteroidData.impactForceMultiplier;
 
-            Debug.Log(craterSize);
 
             CraterCreator.addCraterToMeshOnPosition(mesh, transform.InverseTransformPoint(collision.rigidbody.position), impactVector.normalized, craterSize, asteroidData.CraterDepth);
 
