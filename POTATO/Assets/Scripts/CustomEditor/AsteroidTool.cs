@@ -265,7 +265,7 @@ public class AsteroidTool : EditorWindow
         ShowDocumentation("The collision checkbox is checked if the asteroid should interact with comets. " +
                           "Interaction with comets will leave new craters on the asteroid.");
         
-        asteroidData!.minForceRequired = EditorGUILayout.Slider("Min force required", asteroidData!.minForceRequired, 0.1f, 10);
+        asteroidData!.minForceRequired = EditorGUILayout.Slider("Min force required", asteroidData!.minForceRequired, 0.1f, 200);
         ShowDocumentation("The minimal force required is a value that is used as baseline to create new craters by collisions. " +
                           "This is calculated by overcoming the magnitude of impact, which is 'velocity * mass'. " +
                           "\n[1 - 5 is recommended (This should be set at your own discretion)]");
