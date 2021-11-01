@@ -26,7 +26,7 @@ public class AsteroidData : MonoBehaviour
     [Range(0.1f, 10)]
     public float CraterDepth = 0.25f;
     [Range(0.1f, 10)]
-    public float minForceRequired = 100;
+    public float minForceRequired = 10;
     public bool addColisions = true;
     [Range(0.1f, 10)]
     public float impactForceMultiplier = 1f;
