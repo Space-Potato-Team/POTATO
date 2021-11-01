@@ -236,6 +236,11 @@ public class AsteroidTool : EditorWindow
 
         asteroidData!.CraterAmount = EditorGUILayout.IntField("Amount of craters", asteroidData!.CraterAmount);
         ShowDocumentation("The amount of craters is a value that sets the amount of craters to the tool will generate. \n[100 - 150 recommended]");
+
+        if(asteroidData!.maxCraterSize<=asteroidData!.minCraterSize)
+        {
+                asteroidData!.maxCraterSize = asteroidData!.minCraterSize + 1f;
+        }
         
         // EditorGUILayout.EndToggleGroup();
 
