@@ -598,11 +598,11 @@ MonoBehaviour:
   addGravity: 1
   CraterGrouping: 0.6
   CraterMultiplier: 0
-  maxCraterSize: 1.5
+  maxCraterSize: 10
   minCraterSize: 0.1
   CraterAmount: 100
   CraterDepth: 1
-  minForceRequired: 4
+  minForceRequired: 100000000
   addColisions: 1
   impactForceMultiplier: 0.5
 --- !u!114 &732906212
